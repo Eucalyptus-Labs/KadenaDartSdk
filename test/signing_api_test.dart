@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kadena_dart_sdk/utils/constants.dart';
-import 'package:kadena_dart_sdk/signing_api/i_signing_api.dart';
 
 import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
 
@@ -8,6 +7,37 @@ import 'test_data/test_data.dart';
 
 void main() {
   ISigningApi signingApi = SigningApi();
+
+  // Create a public/private keypair
+  final KadenaSignKeyPair kp = KadenaSignKeyPair(
+    publicKey: 'priv_key',
+    privateKey: 'pub_key',
+  );
+
+// Take the Quicksign Request object as a JSON map
+  final Map<String, dynamic> quicksignRequest = {
+    "commandSigDatas": [
+      {
+        "cmd": "Hello, World!",
+        "sigs": [
+          {
+            "pubKey":
+                '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+          }
+        ]
+      }
+    ]
+  };
+
+// Feed the quicksign function with the keypair and quicksign request
+  final QuicksignResult result = signingApi.quicksign(
+    request: quicksignRequest,
+    keyPairs: [kp],
+  );
+
+// If you need to send the QuicksignResult across HTTP or Websocket (Like Wallet Connect)
+// you can turn it into JSON
+  final Map<String, dynamic> resultJson = result.toJson();
 
   group('quicksign', () {
     test('has correct outcomes', () {

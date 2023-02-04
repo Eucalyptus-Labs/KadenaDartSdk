@@ -1,39 +1,66 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Overview
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+This is an SDK in dart for interacting with the Kadena blockchain.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## Sign and Quicksign Usage
 
 ```dart
-const like = 'sample';
+import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
+
+// Create a signing API object
+ISigningApi signingApi = SigningApi();
+
+// Create a public/private keypair
+final KadenaSignKeyPair kp = KadenaSignKeyPair(
+  publicKey: 'priv_key',
+  privateKey: 'pub_key',
+);
+
+// Take the Quicksign Request object as a JSON map
+final Map<String, dynamic> quicksignRequest = {
+  "commandSigDatas": [
+    {
+      "cmd": "Hello, World!",
+      "sigs": [
+        {
+          "pubKey":
+              '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+        }
+      ]
+    }
+  ]
+};
+
+// Feed the quicksign function with the keypair and quicksign request
+final QuicksignResult result = signingApi.quicksign(
+  request: quicksignRequest,
+  keyPairs: [kp],
+);
+
+// If you need to send the QuicksignResult across HTTP or Websocket (Like Wallet Connect)
+// you can turn it into JSON
+final Map<String, dynamic> resultJson = result.toJson();
+
 ```
 
-## Additional information
+## Implementation
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+The ISigningApi is an interface so that you can mock it easily, and so that it is possible to create future versions that can easily be replaced with the current implementation.
+
+## Tests
+
+To run the tests:
+
+```bash
+flutter test
+```
+
+The tests validate the functionality described in the [KIP](https://github.com/kadena-io/KIPs/blob/jam/quicksign/kip-0015.md).
+However, the KIP is unmerged, and not finalized, and subject to change.  
+
+## To Do
+
+- Build out the Sign portion of the Signing API
+- Build integration tests with an example dApp to prove functionality
+
+
