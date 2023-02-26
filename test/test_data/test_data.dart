@@ -1,4 +1,4 @@
-import 'package:kadena_dart_sdk/models/pact_models.dart';
+import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
 
 const KadenaSignKeyPair kp1 = KadenaSignKeyPair(
   privateKey:
@@ -16,42 +16,84 @@ const KadenaSignKeyPair kp3 = KadenaSignKeyPair(
   publicKey: '370868a06eca9c9fbc06b9b2d882f081ade2caab79667e83e2a94c91973ff5ce',
 );
 
+/// SIGN TEST DATA
+// Case 1: Correct data
+final Map<String, dynamic> signingRequest1 = {
+  "code": '"Hello"',
+  "sender": "sender",
+  "networkId": "testnet04",
+  "chainId": "1",
+  "signingPubKey": kp1.publicKey,
+};
+
+// Case 2: Failing data
+final Map<String, dynamic> signingRequestFailureParse = {
+  "pactCode": '"Hello"',
+};
+
+/// QUICKSIGN TEST DATA
 // Case 1: 1 signature
-final Map<String, dynamic> commandSigData1 = {
-  "cmd": "Hello, World!",
-  "sigs": [
+final Map<String, dynamic> commandSigDatas1 = {
+  "commandSigDatas": [
     {
-      "pubKey":
-          '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+      "cmd": "Hello, World!",
+      "sigs": [
+        {
+          "pubKey":
+              '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+        }
+      ]
     }
-  ]
+  ],
 };
 
 // Case 2: 2 signatures, sign at the same time, sign separately
-final Map<String, dynamic> commandSigData2 = {
-  "cmd": "Hello, World!",
-  "sigs": [
+final Map<String, dynamic> commandSigDatas2 = {
+  "commandSigDatas": [
     {
-      "pubKey":
-          '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
-    },
-    {
-      "pubKey":
-          '370868a06eca9c9fbc06b9b2d882f081ade2caab79667e83e2a94c91973ff5ce',
+      "cmd": "Hello, World!",
+      "sigs": [
+        {
+          "pubKey":
+              '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+        },
+        {
+          "pubKey":
+              '370868a06eca9c9fbc06b9b2d882f081ade2caab79667e83e2a94c91973ff5ce',
+        }
+      ]
     }
-  ]
+  ],
 };
 
-// Case 3: Failure
-final Map<String, dynamic> commandSigDataFailure = {
-  "cmd": "Hello, World!",
-  "sigs": [
-    {
-      "pubKey":
-          '370868a06eca9c9fbc06b9b2d882f081ade2caab79667e83e2a94c91973ff5ce',
-    },
-  ]
+// Case 3: Failures
+final Map<String, dynamic> commandSigDataFailureParse = {
+  "commandSigDatas": {
+    "cmd": "Hello, World!",
+    "sigs": [
+      {
+        "pubKey":
+            '370868a06eca9c9fbc06b9b2d882f081ade2caab79667e83e2a94c91973ff5ce',
+      },
+    ]
+  },
 };
+final Map<String, dynamic> commandSigDataFailureEmptyList = {
+  "commandSigDatas": []
+};
+final QuicksignRequest commandSigDataFailureSign = QuicksignRequest.fromJson(
+  {
+    "commandSigDatas": {
+      "cmd": "Hello, World!",
+      "sigs": [
+        {
+          "pubKey":
+              '370868a06eca9c9fbc06b9b2d882f081ade2caab79667e83e2a94c91973ff5ce',
+        },
+      ]
+    },
+  },
+);
 
 // Expected values for "Hello, World!"
 const String expectedHash = 'URvIHd4RGAg4xWLIK7NfMiP0YGHr3kqVXCez9InPHgM';

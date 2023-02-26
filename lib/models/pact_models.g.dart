@@ -71,15 +71,15 @@ Map<String, dynamic> _$CapabilityToJson(Capability instance) =>
       'args': instance.args,
     };
 
-SignerCapability _$SignerCapabilityFromJson(Map<String, dynamic> json) =>
-    SignerCapability(
+SignerCapabilities _$SignerCapabilitiesFromJson(Map<String, dynamic> json) =>
+    SignerCapabilities(
       pubKey: json['pubKey'] as String,
       clist: (json['clist'] as List<dynamic>)
           .map((e) => Capability.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$SignerCapabilityToJson(SignerCapability instance) =>
+Map<String, dynamic> _$SignerCapabilitiesToJson(SignerCapabilities instance) =>
     <String, dynamic>{
       'pubKey': instance.pubKey,
       'clist': instance.clist,
@@ -89,7 +89,7 @@ CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) =>
     CommandMetadata(
       chainId: json['chainId'] as String,
       gasLimit: json['gasLimit'] as int,
-      gasPrice: json['gasPrice'] as int,
+      gasPrice: (json['gasPrice'] as num).toDouble(),
       sender: json['sender'] as String,
       ttl: json['ttl'] as int,
       creationTime: json['creationTime'] as int,
@@ -107,9 +107,10 @@ Map<String, dynamic> _$CommandMetadataToJson(CommandMetadata instance) =>
 
 PactCommandPayload _$PactCommandPayloadFromJson(Map<String, dynamic> json) =>
     PactCommandPayload(
-      payload: json['payload'] as Map<String, dynamic>,
+      networkId: json['networkId'] as String,
+      payload: CommandPayload.fromJson(json['payload'] as Map<String, dynamic>),
       signers: (json['signers'] as List<dynamic>)
-          .map((e) => SignerCapability.fromJson(e as Map<String, dynamic>))
+          .map((e) => SignerCapabilities.fromJson(e as Map<String, dynamic>))
           .toList(),
       meta: CommandMetadata.fromJson(json['meta'] as Map<String, dynamic>),
       nonce: json['nonce'] as String,
@@ -117,8 +118,43 @@ PactCommandPayload _$PactCommandPayloadFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PactCommandPayloadToJson(PactCommandPayload instance) =>
     <String, dynamic>{
+      'networkId': instance.networkId,
       'payload': instance.payload,
       'signers': instance.signers,
       'meta': instance.meta,
       'nonce': instance.nonce,
+    };
+
+Signer _$SignerFromJson(Map<String, dynamic> json) => Signer(
+      pubKey: json['pubKey'] as String?,
+      sig: json['sig'] as String?,
+    );
+
+Map<String, dynamic> _$SignerToJson(Signer instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pubKey', instance.pubKey);
+  writeNotNull('sig', instance.sig);
+  return val;
+}
+
+PactCommand _$PactCommandFromJson(Map<String, dynamic> json) => PactCommand(
+      cmd: json['cmd'] as String,
+      hash: json['hash'] as String,
+      sigs: (json['sigs'] as List<dynamic>)
+          .map((e) => Signer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$PactCommandToJson(PactCommand instance) =>
+    <String, dynamic>{
+      'cmd': instance.cmd,
+      'hash': instance.hash,
+      'sigs': instance.sigs,
     };

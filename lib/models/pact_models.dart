@@ -83,19 +83,19 @@ class Capability {
 }
 
 @JsonSerializable()
-class SignerCapability {
+class SignerCapabilities {
   String pubKey;
   List<Capability> clist;
 
-  SignerCapability({
+  SignerCapabilities({
     required this.pubKey,
     required this.clist,
   });
 
-  factory SignerCapability.fromJson(Map<String, dynamic> json) =>
-      _$SignerCapabilityFromJson(json);
+  factory SignerCapabilities.fromJson(Map<String, dynamic> json) =>
+      _$SignerCapabilitiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SignerCapabilityToJson(this);
+  Map<String, dynamic> toJson() => _$SignerCapabilitiesToJson(this);
 }
 
 @JsonSerializable()
@@ -109,7 +109,7 @@ class CommandMetadata {
   int gasLimit;
 
   /// The gas price for the transaction. Generally something like 1e-5.
-  int gasPrice;
+  double gasPrice;
 
   /// The public key of the sender. This is also the gas payer.
   String sender;
@@ -137,12 +137,14 @@ class CommandMetadata {
 
 @JsonSerializable()
 class PactCommandPayload {
-  Map<String, dynamic> payload;
-  List<SignerCapability> signers;
-  CommandMetadata meta;
-  String nonce;
+  final String networkId;
+  final CommandPayload payload;
+  final List<SignerCapabilities> signers;
+  final CommandMetadata meta;
+  final String nonce;
 
   PactCommandPayload({
+    required this.networkId,
     required this.payload,
     required this.signers,
     required this.meta,
@@ -153,4 +155,37 @@ class PactCommandPayload {
       _$PactCommandPayloadFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactCommandPayloadToJson(this);
+}
+
+@JsonSerializable(includeIfNull: false)
+class Signer {
+  final String? pubKey;
+  final String? sig;
+
+  Signer({
+    this.pubKey,
+    this.sig,
+  });
+
+  factory Signer.fromJson(Map<String, dynamic> json) => _$SignerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignerToJson(this);
+}
+
+@JsonSerializable(includeIfNull: false)
+class PactCommand {
+  final String cmd;
+  final String hash;
+  final List<Signer> sigs;
+
+  PactCommand({
+    required this.cmd,
+    required this.hash,
+    required this.sigs,
+  });
+
+  factory PactCommand.fromJson(Map<String, dynamic> json) =>
+      _$PactCommandFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PactCommandToJson(this);
 }

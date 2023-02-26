@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kadena_dart_sdk/utils/constants.dart';
 
@@ -8,44 +10,65 @@ import 'test_data/test_data.dart';
 void main() {
   ISigningApi signingApi = SigningApi();
 
-  // Create a public/private keypair
-  final KadenaSignKeyPair kp = KadenaSignKeyPair(
-    publicKey: 'priv_key',
-    privateKey: 'pub_key',
-  );
+  group('sign', () {
+    test('has correct outcomes', () {
+      // Case 1: 1 signature
+      SignRequest request1 = signingApi.parseSignRequest(
+        request: signingRequest1,
+      );
+      SignResult result = signingApi.sign(
+        request: request1,
+        keyPair: kp1,
+      );
+      expect(result.error == null, true);
+      PactCommandPayload pactCommand = PactCommandPayload.fromJson(
+        jsonDecode(
+          result.pactCommand!.cmd,
+        ),
+      );
+      expect(pactCommand.payload.exec!.code, request1.code);
+      expect(pactCommand.meta.sender, request1.sender);
+      expect(pactCommand.networkId, request1.networkId);
+      expect(
+        CryptoLib.blakeHash(result.pactCommand!.cmd),
+        result.pactCommand!.hash,
+      );
+      expect(result.pactCommand!.sigs.length == 1, true);
+      expect(
+        CryptoLib.signHash(
+          hash: result.pactCommand!.hash,
+          privateKey: kp1.privateKey,
+        ),
+        result.pactCommand!.sigs[0].sig,
+      );
+    });
 
-// Take the Quicksign Request object as a JSON map
-  final Map<String, dynamic> quicksignRequest = {
-    "commandSigDatas": [
-      {
-        "cmd": "Hello, World!",
-        "sigs": [
-          {
-            "pubKey":
-                '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
-          }
-        ]
-      }
-    ]
-  };
-
-// Feed the quicksign function with the keypair and quicksign request
-  final QuicksignResult result = signingApi.quicksign(
-    request: quicksignRequest,
-    keyPairs: [kp],
-  );
-
-// If you need to send the QuicksignResult across HTTP or Websocket (Like Wallet Connect)
-// you can turn it into JSON
-  final Map<String, dynamic> resultJson = result.toJson();
+    test('has fails when expected with proper result', () {
+      // Case 1: Parsing failure
+      expect(
+        () => signingApi.parseSignRequest(
+          request: signingRequestFailureParse,
+        ),
+        throwsA(
+          predicate(
+            (e) =>
+                e is SignResult &&
+                e.error != null &&
+                e.error!.msg.contains('{pactCode: "Hello"}'),
+          ),
+        ),
+      );
+    });
+  });
 
   group('quicksign', () {
     test('has correct outcomes', () {
       // Case 1: 1 signature
+      QuicksignRequest quicksignRequest1 = signingApi.parseQuicksignRequest(
+        request: commandSigDatas1,
+      );
       QuicksignResult result = signingApi.quicksign(
-        request: {
-          "commandSigDatas": [commandSigData1],
-        },
+        request: quicksignRequest1,
         keyPairs: [kp1],
       );
       expect(result.responses != null, true);
@@ -60,10 +83,11 @@ void main() {
       expect(result.responses![0].commandSigData.sigs[0].sig, expectedSigKp1);
 
       // Case 2a: 2 required signatures, 1 keypair
+      QuicksignRequest quicksignRequest2 = signingApi.parseQuicksignRequest(
+        request: commandSigDatas2,
+      );
       result = signingApi.quicksign(
-        request: {
-          "commandSigDatas": [commandSigData2],
-        },
+        request: quicksignRequest2,
         keyPairs: [kp1],
       );
       expect(result.responses != null, true);
@@ -82,10 +106,11 @@ void main() {
       );
 
       // Case 2b: 2 required signatures, 1 keypair, second sig given
+      quicksignRequest2 = signingApi.parseQuicksignRequest(
+        request: commandSigDatas2,
+      );
       result = signingApi.quicksign(
-        request: {
-          "commandSigDatas": [commandSigData2],
-        },
+        request: quicksignRequest2,
         keyPairs: [kp2],
       );
       expect(result.responses != null, true);
@@ -106,27 +131,44 @@ void main() {
 
     test('has fails when expected with proper result', () {
       // Case 1: Parsing failure
-      QuicksignResult result = signingApi.quicksign(
-        request: {
-          "commandSigDatas": [
-            {"swag": "swag"}
-          ],
-        },
-        keyPairs: [kp1],
+      expect(
+        () => signingApi.parseQuicksignRequest(
+          request: commandSigDataFailureParse,
+        ),
+        throwsA(
+          predicate(
+            (e) =>
+                e is QuicksignResult &&
+                e.error != null &&
+                e.error!.type == QuicksignError.other &&
+                e.error!.msg != null &&
+                e.error!.msg! == 'Failed to parse quicksign request',
+          ),
+        ),
       );
-      expect(result.responses == null, true);
-      expect(result.error != null, true);
-      expect(result.error!.type, QuicksignError.other);
-      expect(result.error!.msg != null, true);
-      expect(result.error!.msg!, 'Failed to parse quicksign request');
 
-      // Case 2: Signing failure
+      // Case 2: Empty list
+      expect(
+        () => signingApi.parseQuicksignRequest(
+          request: commandSigDataFailureEmptyList,
+        ),
+        throwsA(
+          predicate((e) {
+            print((e as QuicksignResult).error!.type);
+            return e is QuicksignResult &&
+                e.error != null &&
+                e.error!.type == QuicksignError.emptyList;
+          }),
+        ),
+      );
+
+      // Case 3: Signing failure
       // Expect that quicksign with commandSigData fails with quicksign error in response
       // if key is incorrect
-      result = signingApi.quicksign(
-        request: {
-          "commandSigDatas": [commandSigData2],
-        },
+      QuicksignResult result = signingApi.quicksign(
+        request: signingApi.parseQuicksignRequest(
+          request: commandSigDatas2,
+        ),
         keyPairs: [kp3],
       );
       expect(result.responses != null, true);
@@ -137,17 +179,6 @@ void main() {
         result.responses![0].outcome.msg!,
         '${Constants.quicksignSignFailure}${kp3.publicKey}',
       );
-
-      // Case 3: Empty list
-      result = signingApi.quicksign(
-        request: {
-          "commandSigDatas": [],
-        },
-        keyPairs: [kp1],
-      );
-      expect(result.responses == null, true);
-      expect(result.error != null, true);
-      expect(result.error!.type, QuicksignError.emptyList);
     });
   });
 }

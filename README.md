@@ -63,4 +63,10 @@ However, the KIP is unmerged, and not finalized, and subject to change.
 - Build out the Sign portion of the Signing API
 - Build integration tests with an example dApp to prove functionality
 
+## Common Commands
 
+Rebuild the generated code:
+
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
