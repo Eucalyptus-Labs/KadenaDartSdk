@@ -158,3 +158,132 @@ Map<String, dynamic> _$PactCommandToJson(PactCommand instance) =>
       'hash': instance.hash,
       'sigs': instance.sigs,
     };
+
+PactResponse _$PactResponseFromJson(Map<String, dynamic> json) => PactResponse(
+      gas: json['gas'] as int,
+      result:
+          PactResult<dynamic>.fromJson(json['result'] as Map<String, dynamic>),
+      reqKey: json['reqKey'] as String,
+      logs: json['logs'] as String,
+      metadata: json['metadata'] as String?,
+      continuation: json['continuation'] as String?,
+      txId: json['txId'] as String,
+    );
+
+Map<String, dynamic> _$PactResponseToJson(PactResponse instance) {
+  final val = <String, dynamic>{
+    'gas': instance.gas,
+    'result': instance.result,
+    'reqKey': instance.reqKey,
+    'logs': instance.logs,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('metadata', instance.metadata);
+  writeNotNull('continuation', instance.continuation);
+  val['txId'] = instance.txId;
+  return val;
+}
+
+PactEvent _$PactEventFromJson(Map<String, dynamic> json) => PactEvent(
+      name: json['name'] as String,
+      params: json['params'] as List<dynamic>,
+      module: json['module'] as String,
+      moduleHash: json['moduleHash'] as String,
+    );
+
+Map<String, dynamic> _$PactEventToJson(PactEvent instance) => <String, dynamic>{
+      'name': instance.name,
+      'params': instance.params,
+      'module': instance.module,
+      'moduleHash': instance.moduleHash,
+    };
+
+PactResult<T> _$PactResultFromJson<T>(
+  Map<String, dynamic> json,
+  T Function(Object? json) fromJsonT,
+) =>
+    PactResult<T>(
+      status: json['status'] as String,
+      data: _$nullableGenericFromJson(json['data'], fromJsonT),
+      error: json['error'] as String?,
+    );
+
+Map<String, dynamic> _$PactResultToJson<T>(
+  PactResult<T> instance,
+  Object? Function(T value) toJsonT,
+) {
+  final val = <String, dynamic>{
+    'status': instance.status,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('data', _$nullableGenericToJson(instance.data, toJsonT));
+  writeNotNull('error', instance.error);
+  return val;
+}
+
+T? _$nullableGenericFromJson<T>(
+  Object? input,
+  T Function(Object? json) fromJson,
+) =>
+    input == null ? null : fromJson(input);
+
+Object? _$nullableGenericToJson<T>(
+  T? input,
+  Object? Function(T value) toJson,
+) =>
+    input == null ? null : toJson(input);
+
+PactApiError _$PactApiErrorFromJson(Map<String, dynamic> json) => PactApiError(
+      error: json['error'] as String,
+    );
+
+Map<String, dynamic> _$PactApiErrorToJson(PactApiError instance) =>
+    <String, dynamic>{
+      'error': instance.error,
+    };
+
+PactSendRequest _$PactSendRequestFromJson(Map<String, dynamic> json) =>
+    PactSendRequest(
+      cmds: (json['cmds'] as List<dynamic>)
+          .map((e) => PactCommand.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$PactSendRequestToJson(PactSendRequest instance) =>
+    <String, dynamic>{
+      'cmds': instance.cmds,
+    };
+
+PactSendResponse _$PactSendResponseFromJson(Map<String, dynamic> json) =>
+    PactSendResponse(
+      requestKeys: (json['requestKeys'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$PactSendResponseToJson(PactSendResponse instance) =>
+    <String, dynamic>{
+      'requestKeys': instance.requestKeys,
+    };
+
+PactListenRequest _$PactListenRequestFromJson(Map<String, dynamic> json) =>
+    PactListenRequest(
+      listen: json['listen'] as String,
+    );
+
+Map<String, dynamic> _$PactListenRequestToJson(PactListenRequest instance) =>
+    <String, dynamic>{
+      'listen': instance.listen,
+    };
