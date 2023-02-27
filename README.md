@@ -17,7 +17,7 @@ final KadenaSignKeyPair kp = KadenaSignKeyPair(
 );
 
 // Take the Quicksign Request object as a JSON map
-final Map<String, dynamic> quicksignRequest = {
+final Map<String, dynamic> quicksignRequestJson = {
   "commandSigDatas": [
     {
       "cmd": "Hello, World!",
@@ -30,6 +30,11 @@ final Map<String, dynamic> quicksignRequest = {
     }
   ]
 };
+
+// Parse the object
+final QuicksignRequest quicksignRequest = QuicksignRequest.fromJson(
+  quicksignRequestJson,
+);
 
 // Feed the quicksign function with the keypair and quicksign request
 final QuicksignResult result = signingApi.quicksign(
