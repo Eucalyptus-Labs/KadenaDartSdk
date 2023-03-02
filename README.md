@@ -16,11 +16,11 @@ final KadenaSignKeyPair kp = KadenaSignKeyPair(
   privateKey: 'pub_key',
 );
 
-// Take the Quicksign Request object as a JSON map
+// Take the Sign/Quicksign Request object as a JSON map
 final Map<String, dynamic> quicksignRequestJson = {
   "commandSigDatas": [
     {
-      "cmd": "Hello, World!",
+      "cmd": "Hello, World!", // This is not a valid stringified Pact Command Payload, be warned
       "sigs": [
         {
           "pubKey":
@@ -30,21 +30,36 @@ final Map<String, dynamic> quicksignRequestJson = {
     }
   ]
 };
+final Map<String, dynamic> signRequestJson = {
+  "code": '"Hello"',
+  "sender": "sender",
+  "networkId": "testnet04",
+  "chainId": "1",
+  "signingPubKey": '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+};
 
-// Parse the object
-final QuicksignRequest quicksignRequest = QuicksignRequest.fromJson(
+// Parse the requests
+final QuicksignRequest quicksignRequest = signingApi.parseQuicksignRequest(
   quicksignRequestJson,
+);
+final SignRequest signRequest = signingApi.parseSignRequest(
+  signRequestJson,
 );
 
 // Feed the quicksign function with the keypair and quicksign request
-final QuicksignResult result = signingApi.quicksign(
+final QuicksignResult quicksignResult = signingApi.quicksign(
   request: quicksignRequest,
   keyPairs: [kp],
+);
+final SignResult signResult = signingApi.quicksign(
+  request: signRequest,
+  keyPairs: kp,
 );
 
 // If you need to send the QuicksignResult across HTTP or Websocket (Like Wallet Connect)
 // you can turn it into JSON
-final Map<String, dynamic> resultJson = result.toJson();
+final Map<String, dynamic> quicksignResultJson = quicksignResult.toJson();
+final Map<String, dynamic> signResultJson = signResult.toJson();
 
 ```
 

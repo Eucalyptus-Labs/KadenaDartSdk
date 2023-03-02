@@ -172,11 +172,11 @@ class CommandMetadata {
 
 @JsonSerializable()
 class PactCommandPayload {
-  final String networkId;
-  final CommandPayload payload;
-  final List<SignerCapabilities> signers;
-  final CommandMetadata meta;
-  final String nonce;
+  String networkId;
+  CommandPayload payload;
+  List<SignerCapabilities> signers;
+  CommandMetadata meta;
+  String nonce;
 
   PactCommandPayload({
     required this.networkId,
@@ -199,8 +199,8 @@ class PactCommandPayload {
 
 @JsonSerializable(includeIfNull: false)
 class Signer {
-  final String? pubKey;
-  final String? sig;
+  String? pubKey;
+  String? sig;
 
   Signer({
     this.pubKey,
@@ -219,9 +219,9 @@ class Signer {
 
 @JsonSerializable(includeIfNull: false)
 class PactCommand {
-  final String cmd;
-  final String hash;
-  final List<Signer> sigs;
+  String cmd;
+  String hash;
+  List<Signer> sigs;
 
   PactCommand({
     required this.cmd,
