@@ -1,6 +1,6 @@
 name: kadena_dart_sdk
 description: A dart package for interacting with the Kadena blockchain.
-version: 1.0.0
+version: 1.0.1
 respository: https://github.com/Eucalyptus-Labs/kadena-quicksign-dart
 
 environment:
