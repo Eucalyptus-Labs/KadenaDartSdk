@@ -1,0 +1,25 @@
+name: ci
+description: Executes Dart specific CI steps.
+inputs:
+  type:
+    description: The type of CI to run.
+    required: true
+  node-url:
+    description: 'The endpoint of the Pact node to test with'
+    required: false
+    default: 'https://api.chainweb.com'
+
+runs:
+  using: composite
+  steps:
+    # Setup Dependencies
+    - uses: ./.github/actions/dependencies
+
+    # Unit and Integration Tests
+    - name: Run tests
+      if: inputs.type == 'integration-tests'
+      shell: bash
+      env:
+        NODE_URL: ${{ inputs.node-url }}
+      run: flutter test --dart-define=RELAY_ENDPOINT=$RELAY_ENDPOINT --dart-define=PROJECT_ID=$PROJECT_ID
+    
