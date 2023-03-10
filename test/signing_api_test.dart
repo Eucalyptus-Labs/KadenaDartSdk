@@ -16,8 +16,11 @@ void main() {
       SignRequest request1 = signingApi.parseSignRequest(
         request: signingRequest1,
       );
-      SignResult result = signingApi.sign(
+      PactCommandPayload pcp = signingApi.constructPactCommandPayload(
         request: request1,
+      );
+      SignResult result = signingApi.sign(
+        payload: pcp,
         keyPair: kp1,
       );
       expect(result.error == null, true);
@@ -62,7 +65,80 @@ void main() {
   });
 
   group('quicksign', () {
-    test('has correct outcomes', () {
+    test('single command has correct outcomes', () {
+      // Case 1: 1 signature
+      QuicksignRequest quicksignRequest1 = signingApi.parseQuicksignRequest(
+        request: commandSigDatas1,
+      );
+      QuicksignResponse result = signingApi.quicksignSingleCommand(
+        commandSigData: quicksignRequest1.commandSigDatas[0],
+        keyPairs: [kp1],
+      );
+      expect(
+        result.commandSigData.cmd,
+        quicksignRequest1.commandSigDatas[0].cmd,
+      );
+      expect(result.outcome.hash != null, true);
+      expect(result.outcome.hash, expectedHash);
+      expect(result.commandSigData.sigs.length == 1, true);
+      expect(
+        result.commandSigData.sigs[0].sig != null,
+        true,
+      );
+      expect(result.commandSigData.sigs[0].sig, expectedSigKp1);
+
+      // Case 2a: 2 required signatures, 1 keypair
+      QuicksignRequest quicksignRequest2 = signingApi.parseQuicksignRequest(
+        request: commandSigDatas2,
+      );
+      result = signingApi.quicksignSingleCommand(
+        commandSigData: quicksignRequest2.commandSigDatas[0],
+        keyPairs: [kp1],
+      );
+      expect(
+        result.commandSigData.cmd,
+        quicksignRequest1.commandSigDatas[0].cmd,
+      );
+      expect(result.outcome.hash != null, true);
+      expect(result.outcome.hash, expectedHash);
+      expect(result.commandSigData.sigs.length == 2, true);
+      expect(
+        result.commandSigData.sigs[0].sig != null,
+        true,
+      );
+      expect(result.commandSigData.sigs[0].sig, expectedSigKp1);
+      expect(
+        result.commandSigData.sigs[1].sig == null,
+        true,
+      );
+
+      // Case 2b: 2 required signatures, 1 keypair, second sig given
+      quicksignRequest2 = signingApi.parseQuicksignRequest(
+        request: commandSigDatas2,
+      );
+      result = signingApi.quicksignSingleCommand(
+        commandSigData: quicksignRequest2.commandSigDatas[0],
+        keyPairs: [kp2],
+      );
+      expect(
+        result.commandSigData.cmd,
+        quicksignRequest1.commandSigDatas[0].cmd,
+      );
+      expect(result.outcome.hash != null, true);
+      expect(result.outcome.hash, expectedHash);
+      expect(result.commandSigData.sigs.length == 2, true);
+      expect(
+        result.commandSigData.sigs[0].sig == null,
+        true,
+      );
+      expect(
+        result.commandSigData.sigs[1].sig != null,
+        true,
+      );
+      expect(result.commandSigData.sigs[1].sig, expectedSigKp2);
+    });
+
+    test('all has correct outcomes', () {
       // Case 1: 1 signature
       QuicksignRequest quicksignRequest1 = signingApi.parseQuicksignRequest(
         request: commandSigDatas1,
@@ -129,7 +205,43 @@ void main() {
       expect(result.responses![0].commandSigData.sigs[1].sig, expectedSigKp2);
     });
 
-    test('has fails when expected with proper result', () {
+    test('single command fails when expected with proper result', () {
+      // Case 1: Signing failure
+      // Expect that quicksign with commandSigData fails with quicksign error in response
+      // if key is incorrect
+      CommandSigData commandSigData = signingApi
+          .parseQuicksignRequest(
+            request: commandSigDatas2,
+          )
+          .commandSigDatas[0];
+      QuicksignResponse result = signingApi.quicksignSingleCommand(
+        commandSigData: commandSigData,
+        keyPairs: [kp3],
+      );
+      expect(result.commandSigData.cmd, commandSigData.cmd);
+      expect(result.outcome.result, QuicksignOutcome.failure);
+      expect(
+        result.outcome.msg,
+        '${Constants.quicksignSignFailure}${kp3.publicKey}',
+      );
+
+      // Case 2: No sig
+      // Expect that quicksign with commandSigData fails with quicksign error in response
+      // if key is incorrect
+      commandSigData = signingApi
+          .parseQuicksignRequest(
+            request: commandSigDatas1,
+          )
+          .commandSigDatas[0];
+      result = signingApi.quicksignSingleCommand(
+        commandSigData: commandSigData,
+        keyPairs: [kp2],
+      );
+      expect(result.commandSigData.cmd, commandSigData.cmd);
+      expect(result.outcome.result, QuicksignOutcome.noSig);
+    });
+
+    test('all fails when expected with proper result', () {
       // Case 1: Parsing failure
       expect(
         () => signingApi.parseQuicksignRequest(
@@ -172,7 +284,7 @@ void main() {
         keyPairs: [kp3],
       );
       expect(result.responses != null, true);
-      expect(result.responses!.length == 2, true);
+      expect(result.responses!.length, 1);
       expect(result.responses![0].outcome.result, QuicksignOutcome.failure);
       expect(result.responses![0].outcome.msg != null, true);
       expect(

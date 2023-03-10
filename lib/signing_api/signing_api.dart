@@ -8,6 +8,8 @@ import 'package:kadena_dart_sdk/signing_api/i_signing_api.dart';
 import 'package:kadena_dart_sdk/models/pact_models.dart';
 import 'package:kadena_dart_sdk/models/quicksign_models.dart';
 
+import '../utils/utils.dart';
+
 class SigningApi extends ISigningApi {
   @override
   SignRequest parseSignRequest({
@@ -40,36 +42,41 @@ ${request.toString()}''',
   }
 
   @override
-  SignResult sign({
+  PactCommandPayload constructPactCommandPayload({
     required SignRequest request,
+  }) {
+    return PactCommandPayload(
+      networkId: request.networkId,
+      payload: CommandPayload(
+        exec: ExecMessage(
+          data: request.data,
+          code: request.code,
+        ),
+      ),
+      signers: [
+        SignerCapabilities(
+          pubKey: request.signingPubKey,
+          clist: request.caps.map((e) => e.cap).toList(),
+        ),
+      ],
+      meta: CommandMetadata(
+        chainId: request.chainId,
+        gasLimit: request.gasLimit,
+        gasPrice: request.gasPrice,
+        sender: request.sender,
+        ttl: request.ttl,
+        creationTime: Utils.getCreationTime(),
+      ),
+      nonce: DateTime.now().toIso8601String(),
+    );
+  }
+
+  @override
+  SignResult sign({
+    required PactCommandPayload payload,
     required KadenaSignKeyPair keyPair,
   }) {
     try {
-      final PactCommandPayload payload = PactCommandPayload(
-        networkId: request.networkId,
-        payload: CommandPayload(
-          exec: ExecMessage(
-            data: request.data,
-            code: request.code,
-          ),
-        ),
-        signers: [
-          SignerCapabilities(
-            pubKey: request.signingPubKey,
-            clist: request.caps.map((e) => e.cap).toList(),
-          ),
-        ],
-        meta: CommandMetadata(
-          chainId: request.chainId,
-          gasLimit: request.gasLimit,
-          gasPrice: request.gasPrice,
-          sender: request.sender,
-          ttl: request.ttl,
-          creationTime: DateTime.now().millisecondsSinceEpoch - 1000,
-        ),
-        nonce: DateTime.now().toIso8601String(),
-      );
-
       final String cmd = jsonEncode(payload.toJson());
 
       final hashAndSign = CryptoLib.hashAndSign(
@@ -127,6 +134,69 @@ ${request.toString()}''',
   }
 
   @override
+  QuicksignResponse quicksignSingleCommand({
+    required List<KadenaSignKeyPair> keyPairs,
+    required CommandSigData commandSigData,
+  }) {
+    bool signed = false;
+    Uint8List hash = CryptoLib.blakeHashToBinary(commandSigData.cmd);
+
+    // Loop through the requests signatures
+    for (QuicksignSigner sig in commandSigData.sigs) {
+      // Loop through the key pairs
+      for (KadenaSignKeyPair keyPair in keyPairs) {
+        // If the public key matches the key pair public key
+        if (sig.pubKey == keyPair.publicKey) {
+          try {
+            // Sign the hash
+            final String signature = CryptoLib.signHashBytes(
+              hash: hash,
+              privateKey: keyPair.privateKey,
+            );
+
+            // Add the signature to the sig object
+            sig.sig = signature;
+          } catch (e) {
+            // If there was an error
+            return QuicksignResponse(
+              commandSigData: commandSigData,
+              outcome: QuicksignOutcome(
+                result: QuicksignOutcome.failure,
+                msg: '${Constants.quicksignSignFailure}${keyPair.publicKey}',
+              ),
+            );
+          }
+
+          // We have "signed" it even if there is an error
+          signed = true;
+        }
+      }
+    }
+
+    if (signed) {
+      // Create the outcome object
+      final outcome = QuicksignOutcome(
+        result: QuicksignOutcome.success,
+        hash: CryptoLib.base64UrlBinHash(hash),
+      );
+
+      // Create the response object and append it to the responses
+      return QuicksignResponse(
+        commandSigData: commandSigData,
+        outcome: outcome,
+      );
+    } else {
+      // If the keypair was not found, no sig!
+      return QuicksignResponse(
+        commandSigData: commandSigData,
+        outcome: QuicksignOutcome(
+          result: QuicksignOutcome.noSig,
+        ),
+      );
+    }
+  }
+
+  @override
   QuicksignResult quicksign({
     required QuicksignRequest request,
     required List<KadenaSignKeyPair> keyPairs,
@@ -135,65 +205,12 @@ ${request.toString()}''',
 
     // Loop through the list of commands
     for (CommandSigData command in request.commandSigDatas) {
-      bool signed = false;
-      Uint8List hash = CryptoLib.blakeHashToBinary(command.cmd);
-
-      // Loop through the requests signatures
-      for (QuicksignSigner sig in command.sigs) {
-        // Loop through the key pairs
-        for (KadenaSignKeyPair keyPair in keyPairs) {
-          // If the public key matches the key pair public key
-          if (sig.pubKey == keyPair.publicKey) {
-            try {
-              // Sign the hash
-              final String signature = CryptoLib.signHashBytes(
-                hash: hash,
-                privateKey: keyPair.privateKey,
-              );
-
-              // Add the signature to the sig object
-              sig.sig = signature;
-            } catch (e) {
-              // If there was an error
-              final response = QuicksignResponse(
-                commandSigData: command,
-                outcome: QuicksignOutcome(
-                  result: QuicksignOutcome.failure,
-                  msg: '${Constants.quicksignSignFailure}${keyPair.publicKey}',
-                ),
-              );
-              responses.add(response);
-            }
-
-            // We have "signed" it even if there is an error
-            signed = true;
-          }
-        }
-      }
-
-      if (signed) {
-        // Create the outcome object
-        final outcome = QuicksignOutcome(
-          result: QuicksignOutcome.success,
-          hash: CryptoLib.base64UrlBinHash(hash),
-        );
-
-        // Create the response object and append it to the responses
-        final response = QuicksignResponse(
+      responses.add(
+        quicksignSingleCommand(
           commandSigData: command,
-          outcome: outcome,
-        );
-        responses.add(response);
-      } else {
-        // If the keypair was not found, no sig!
-        final response = QuicksignResponse(
-          commandSigData: command,
-          outcome: QuicksignOutcome(
-            result: QuicksignOutcome.noSig,
-          ),
-        );
-        responses.add(response);
-      }
+          keyPairs: keyPairs,
+        ),
+      );
     }
 
     return QuicksignResult(
