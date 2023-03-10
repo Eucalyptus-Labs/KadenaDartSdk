@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Fixed bug with QuicksignSigner
+
 ## 2.0.0
 
 - Changes to sign function in the SigningApi class so you can parse -> Pact Command Payload -> Sign
