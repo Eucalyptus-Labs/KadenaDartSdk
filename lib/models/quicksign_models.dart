@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kadena_dart_sdk/models/pact_models.dart';
 
 part 'quicksign_models.g.dart';
 
