@@ -65,9 +65,7 @@ ${request.toString()}''',
         gasPrice: request.gasPrice,
         sender: request.sender,
         ttl: request.ttl,
-        creationTime: Utils.getCreationTime(),
       ),
-      nonce: DateTime.now().toIso8601String(),
     );
   }
 

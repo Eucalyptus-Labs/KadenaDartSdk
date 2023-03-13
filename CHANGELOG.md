@@ -1,3 +1,7 @@
+## 2.0.3
+
+- Added defaults for `creationTime` and `nonce`
+
 ## 2.0.2
 
 - Added KIP17 `kadena_getAccounts_v1` models for WalletConnect
