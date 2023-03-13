@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:kadena_dart_sdk/utils/utils.dart';
 
 part 'pact_models.g.dart';
 
@@ -131,33 +132,33 @@ class SignerCapabilities {
 @JsonSerializable()
 class CommandMetadata {
   /// The chain id of the chain to send the transaction to.
-  String chainId;
+  final String chainId;
 
   /// The gas limit for the transaction. Example: 2500.
   /// Higher gas limit means more gas is used if an error occurs.
   /// Keep the gas limit low to avoid this.
-  int gasLimit;
+  final int gasLimit;
 
   /// The gas price for the transaction. Generally something like 1e-5.
-  double gasPrice;
+  final double gasPrice;
 
   /// The public key of the sender. This is also the gas payer.
-  String sender;
+  final String sender;
 
   /// The time to live for the transaction. Example: 28800.
-  int ttl;
+  final int ttl;
 
   /// The creation time of the transaction in epoch milliseconds.
-  int creationTime;
+  final int creationTime;
 
   CommandMetadata({
     required this.chainId,
     required this.gasLimit,
     required this.gasPrice,
     required this.sender,
-    required this.ttl,
-    required this.creationTime,
-  });
+    this.ttl = 600,
+    int? creationTime,
+  }) : creationTime = creationTime ?? Utils.getCreationTime();
 
   factory CommandMetadata.fromJson(Map<String, dynamic> json) =>
       _$CommandMetadataFromJson(json);
@@ -172,19 +173,19 @@ class CommandMetadata {
 
 @JsonSerializable()
 class PactCommandPayload {
-  String networkId;
-  CommandPayload payload;
-  List<SignerCapabilities> signers;
-  CommandMetadata meta;
-  String nonce;
+  final String networkId;
+  final CommandPayload payload;
+  final List<SignerCapabilities> signers;
+  final CommandMetadata meta;
+  final String nonce;
 
   PactCommandPayload({
     required this.networkId,
     required this.payload,
     required this.signers,
     required this.meta,
-    required this.nonce,
-  });
+    String? nonce,
+  }) : nonce = nonce ?? DateTime.now().toIso8601String();
 
   factory PactCommandPayload.fromJson(Map<String, dynamic> json) =>
       _$PactCommandPayloadFromJson(json);
@@ -219,9 +220,9 @@ class Signer {
 
 @JsonSerializable(includeIfNull: false)
 class PactCommand {
-  String cmd;
-  String hash;
-  List<Signer> sigs;
+  final String cmd;
+  final String hash;
+  final List<Signer> sigs;
 
   PactCommand({
     required this.cmd,
