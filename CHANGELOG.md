@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Added KIP17 `kadena_getAccounts_v1` models for WalletConnect
+
 ## 2.0.1
 
 - Fixed bug with QuicksignSigner
