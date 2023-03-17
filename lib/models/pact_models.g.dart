@@ -91,8 +91,8 @@ CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) =>
       gasLimit: json['gasLimit'] as int,
       gasPrice: (json['gasPrice'] as num).toDouble(),
       sender: json['sender'] as String,
-      ttl: json['ttl'] as int,
-      creationTime: json['creationTime'] as int,
+      ttl: json['ttl'] as int? ?? 600,
+      creationTime: json['creationTime'] as int?,
     );
 
 Map<String, dynamic> _$CommandMetadataToJson(CommandMetadata instance) =>
@@ -113,7 +113,7 @@ PactCommandPayload _$PactCommandPayloadFromJson(Map<String, dynamic> json) =>
           .map((e) => SignerCapabilities.fromJson(e as Map<String, dynamic>))
           .toList(),
       meta: CommandMetadata.fromJson(json['meta'] as Map<String, dynamic>),
-      nonce: json['nonce'] as String,
+      nonce: json['nonce'] as String?,
     );
 
 Map<String, dynamic> _$PactCommandPayloadToJson(PactCommandPayload instance) =>

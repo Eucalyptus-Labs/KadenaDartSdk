@@ -49,8 +49,8 @@ ${request.toString()}''',
       networkId: request.networkId,
       payload: CommandPayload(
         exec: ExecMessage(
-          data: request.data,
-          code: request.code,
+          data: request.data ?? request.envData ?? {},
+          code: request.code ?? request.pactCode ?? '',
         ),
       ),
       signers: [

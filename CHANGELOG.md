@@ -1,3 +1,7 @@
+## 2.0.4
+
+- Added `envData` and `pactCode` to the SigningRequest model
+
 ## 2.0.3
 
 - Added defaults for `creationTime` and `nonce`

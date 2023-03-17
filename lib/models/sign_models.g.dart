@@ -19,7 +19,7 @@ Map<String, dynamic> _$DappCappToJson(DappCapp instance) => <String, dynamic>{
     };
 
 SignRequest _$SignRequestFromJson(Map<String, dynamic> json) => SignRequest(
-      code: json['code'] as String,
+      code: json['code'] as String?,
       data: json['data'] as Map<String, dynamic>? ?? const {},
       sender: json['sender'] as String,
       networkId: json['networkId'] as String,
@@ -32,21 +32,33 @@ SignRequest _$SignRequestFromJson(Map<String, dynamic> json) => SignRequest(
               ?.map((e) => DappCapp.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const <DappCapp>[],
-    );
+    )
+      ..pactCode = json['pactCode'] as String?
+      ..envData = json['envData'] as Map<String, dynamic>?;
 
-Map<String, dynamic> _$SignRequestToJson(SignRequest instance) =>
-    <String, dynamic>{
-      'code': instance.code,
-      'data': instance.data,
-      'sender': instance.sender,
-      'networkId': instance.networkId,
-      'chainId': instance.chainId,
-      'gasLimit': instance.gasLimit,
-      'gasPrice': instance.gasPrice,
-      'signingPubKey': instance.signingPubKey,
-      'ttl': instance.ttl,
-      'caps': instance.caps,
-    };
+Map<String, dynamic> _$SignRequestToJson(SignRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('code', instance.code);
+  writeNotNull('pactCode', instance.pactCode);
+  writeNotNull('data', instance.data);
+  writeNotNull('envData', instance.envData);
+  val['sender'] = instance.sender;
+  val['networkId'] = instance.networkId;
+  val['chainId'] = instance.chainId;
+  val['gasLimit'] = instance.gasLimit;
+  val['gasPrice'] = instance.gasPrice;
+  val['signingPubKey'] = instance.signingPubKey;
+  val['ttl'] = instance.ttl;
+  val['caps'] = instance.caps;
+  return val;
+}
 
 SignResult _$SignResultFromJson(Map<String, dynamic> json) => SignResult(
       pactCommand: json['pactCommand'] == null
