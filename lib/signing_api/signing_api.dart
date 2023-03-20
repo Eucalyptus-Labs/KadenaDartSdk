@@ -75,7 +75,9 @@ ${request.toString()}''',
     required KadenaSignKeyPair keyPair,
   }) {
     try {
-      final String cmd = jsonEncode(payload.toJson());
+      // Double encode it so it gets backslashes,
+      // which will be added when you jsonEncode the PactCommand
+      final String cmd = jsonEncode(jsonEncode(payload));
 
       final hashAndSign = CryptoLib.hashAndSign(
         message: cmd,
@@ -83,8 +85,8 @@ ${request.toString()}''',
       );
 
       return SignResult(
-        pactCommand: PactCommand(
-          cmd: cmd,
+        body: PactCommand(
+          cmd: jsonEncode(payload),
           hash: hashAndSign.hash,
           sigs: [
             Signer(

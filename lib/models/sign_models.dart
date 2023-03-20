@@ -84,11 +84,11 @@ class SignRequest {
 
 @JsonSerializable(includeIfNull: false)
 class SignResult {
-  final PactCommand? pactCommand;
+  final PactCommand? body;
   final SignRequestError? error;
 
   SignResult({
-    this.pactCommand,
+    this.body,
     this.error,
   });
 

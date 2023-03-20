@@ -74,11 +74,7 @@ class CryptoLib {
     required String message,
     required String privateKey,
   }) {
-    final Uint8List hash = Blake2bHash.hash(
-      Uint8List.fromList(message.codeUnits),
-      0,
-      message.length,
-    );
+    final Uint8List hash = blakeHashToBinary(message);
     SigningKey signingKey = SigningKey.fromSeed(
       HEX.decode(privateKey).toUint8List(),
     );

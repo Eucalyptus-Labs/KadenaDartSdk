@@ -26,23 +26,23 @@ void main() {
       expect(result.error == null, true);
       PactCommandPayload pactCommand = PactCommandPayload.fromJson(
         jsonDecode(
-          result.pactCommand!.cmd,
+          result.body!.cmd,
         ),
       );
       expect(pactCommand.payload.exec!.code, request1.code);
       expect(pactCommand.meta.sender, request1.sender);
       expect(pactCommand.networkId, request1.networkId);
       expect(
-        CryptoLib.blakeHash(result.pactCommand!.cmd),
-        result.pactCommand!.hash,
+        CryptoLib.blakeHash(jsonEncode(result.body!.cmd)),
+        result.body!.hash,
       );
-      expect(result.pactCommand!.sigs.length == 1, true);
+      expect(result.body!.sigs.length == 1, true);
       expect(
         CryptoLib.signHash(
-          hash: result.pactCommand!.hash,
+          hash: result.body!.hash,
           privateKey: kp1.privateKey,
         ),
-        result.pactCommand!.sigs[0].sig,
+        result.body!.sigs[0].sig,
       );
     });
 
