@@ -1,3 +1,8 @@
+## 2.1.0
+
+- Pact API rework and tests added
+- Sign API rework based on Pact API to make sure sig and hash are correct
+
 ## 2.0.5
 
 - Updated sign API to double encode the cmd so that it matches the PactCommand's cmd string exactly
