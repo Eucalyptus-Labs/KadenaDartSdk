@@ -24,6 +24,11 @@ class DappCapp {
       _$DappCappFromJson(json);
 
   Map<String, dynamic> toJson() => _$DappCappToJson(this);
+
+  @override
+  String toString() {
+    return 'DappCapp{role: $role, description: $description, cap: $cap}';
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -74,21 +79,29 @@ class SignRequest {
     required this.signingPubKey,
     this.ttl = 600,
     this.caps = const <DappCapp>[],
-  });
+  })  : pactCode = code,
+        envData = data;
 
   factory SignRequest.fromJson(Map<String, dynamic> json) =>
       _$SignRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignRequestToJson(this);
+
+  @override
+  String toString() {
+    return 'SignRequest{code or pactCode: ${code ?? pactCode}, data or envData: ${data ?? envData}, sender: $sender, networkId: $networkId, chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, signingPubKey: $signingPubKey, ttl: $ttl, caps: $caps}';
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
 class SignResult {
   final PactCommand? body;
+  final PactCommand? signedCmd;
   final SignRequestError? error;
 
   SignResult({
     this.body,
+    this.signedCmd,
     this.error,
   });
 
@@ -96,6 +109,11 @@ class SignResult {
       _$SignResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignResultToJson(this);
+
+  @override
+  String toString() {
+    return 'SignResult{body or signedCmd: ${body ?? signedCmd}, error: $error}';
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -110,4 +128,9 @@ class SignRequestError {
       _$SignRequestErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignRequestErrorToJson(this);
+
+  @override
+  String toString() {
+    return 'SignRequestError{msg: $msg}';
+  }
 }

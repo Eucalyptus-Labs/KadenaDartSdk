@@ -64,6 +64,9 @@ SignResult _$SignResultFromJson(Map<String, dynamic> json) => SignResult(
       body: json['body'] == null
           ? null
           : PactCommand.fromJson(json['body'] as Map<String, dynamic>),
+      signedCmd: json['signedCmd'] == null
+          ? null
+          : PactCommand.fromJson(json['signedCmd'] as Map<String, dynamic>),
       error: json['error'] == null
           ? null
           : SignRequestError.fromJson(json['error'] as Map<String, dynamic>),
@@ -79,6 +82,7 @@ Map<String, dynamic> _$SignResultToJson(SignResult instance) {
   }
 
   writeNotNull('body', instance.body);
+  writeNotNull('signedCmd', instance.signedCmd);
   writeNotNull('error', instance.error);
   return val;
 }

@@ -62,7 +62,7 @@ void main() {
   });
 
   test('test sign message', () {
-    final String privateKey = kp1.privateKey;
+    final String privateKey = kpTest.privateKey;
     const String message = "Hello, World!";
     final String hash = CryptoLib.blakeHash(message);
     final Uint8List hashBin = CryptoLib.blakeHashToBinary(message);

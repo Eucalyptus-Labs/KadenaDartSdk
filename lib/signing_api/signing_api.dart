@@ -77,25 +77,35 @@ ${request.toString()}''',
     try {
       // Double encode it so it gets backslashes,
       // which will be added when you jsonEncode the PactCommand
-      final String cmd = jsonEncode(jsonEncode(payload));
+      final String cmd = jsonEncode(payload);
+      // print(jsonEncode(payload));
+      // print('signing payload');
+      // print(cmd);
+      // print(jsonDecode(cmd));
+      // print(PactCommandPayload.fromJson(jsonDecode(jsonDecode(cmd))));
+      // print('swag');
 
       final hashAndSign = CryptoLib.hashAndSign(
         message: cmd,
         privateKey: keyPair.privateKey,
       );
 
+      final PactCommand signedCmd = PactCommand(
+        cmd: cmd,
+        hash: hashAndSign.hash,
+        sigs: [
+          Signer(
+            sig: hashAndSign.sig,
+          ),
+        ],
+      );
+
       return SignResult(
-        body: PactCommand(
-          cmd: jsonEncode(payload),
-          hash: hashAndSign.hash,
-          sigs: [
-            Signer(
-              sig: hashAndSign.sig,
-            ),
-          ],
-        ),
+        body: signedCmd,
+        signedCmd: signedCmd,
       );
     } catch (e) {
+      print(e);
       return SignResult(
         error: SignRequestError(
           msg: 'Invalid signing request',

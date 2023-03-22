@@ -17,6 +17,11 @@ class QuicksignSigner {
       _$QuicksignSignerFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignSignerToJson(this);
+
+  @override
+  String toString() {
+    return 'QuicksignSigner{pubKey: $pubKey, sig: $sig}';
+  }
 }
 
 @JsonSerializable()
@@ -33,6 +38,11 @@ class CommandSigData {
       _$CommandSigDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommandSigDataToJson(this);
+
+  @override
+  String toString() {
+    return 'CommandSigData{cmd: $cmd, sigs: $sigs}';
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -55,6 +65,11 @@ class QuicksignOutcome {
       _$QuicksignOutcomeFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignOutcomeToJson(this);
+
+  @override
+  String toString() {
+    return 'QuicksignOutcome{result: $result, hash: $hash, msg: $msg}';
+  }
 }
 
 @JsonSerializable()
@@ -71,6 +86,11 @@ class QuicksignResponse {
       _$QuicksignResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignResponseToJson(this);
+
+  @override
+  String toString() {
+    return 'QuicksignResponse{commandSigData: $commandSigData, outcome: $outcome}';
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -91,6 +111,11 @@ class QuicksignError {
       _$QuicksignErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignErrorToJson(this);
+
+  @override
+  String toString() {
+    return 'QuicksignError{type: $type, msg: $msg}';
+  }
 }
 
 @JsonSerializable()
@@ -105,6 +130,11 @@ class QuicksignRequest {
       _$QuicksignRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignRequestToJson(this);
+
+  @override
+  String toString() {
+    return 'QuicksignRequest{commandSigDatas: $commandSigDatas}';
+  }
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -121,4 +151,9 @@ class QuicksignResult {
       _$QuicksignResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignResultToJson(this);
+
+  @override
+  String toString() {
+    return 'QuicksignResult{responses: $responses, error: $error}';
+  }
 }

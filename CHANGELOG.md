@@ -1,3 +1,7 @@
+## 2.0.5
+
+- Updated sign API to double encode the cmd so that it matches the PactCommand's cmd string exactly
+
 ## 2.0.4
 
 - Added `envData` and `pactCode` to the SigningRequest model

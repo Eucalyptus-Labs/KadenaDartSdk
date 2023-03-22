@@ -1,10 +1,18 @@
 import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
 
-const KadenaSignKeyPair kp1 = KadenaSignKeyPair(
+const String nodeUrlTestnet = 'https://api.testnet.chainweb.com';
+const String nodeUrlMainnet = 'https://api.chainweb.com';
+
+const KadenaSignKeyPair kpTest = KadenaSignKeyPair(
   privateKey:
       '1de84cf16631a778317e1c33a6b729875734c129b0094e809713b7225fd3dfb7', // Actual key: 306d157701e3152792133b5db279b50d19e0cd47e9c9bcddb6ea361cfc48d256
   publicKey:
       '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51', // Not the actual public key
+);
+const KadenaSignKeyPair kp1 = KadenaSignKeyPair(
+  privateKey:
+      '30eace3480165c443d206511d191d0fb60f5a86f8da5592e4f35e06ffef4bb49',
+  publicKey: '049bce6f327763d0da82e20cd61972cd98f2737eb29de5bea6afd08370b1fce2',
 );
 const KadenaSignKeyPair kp2 = KadenaSignKeyPair(
   privateKey:
@@ -40,7 +48,7 @@ final Map<String, dynamic> commandSigDatas1 = {
       "sigs": [
         {
           "pubKey":
-              '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+              '049bce6f327763d0da82e20cd61972cd98f2737eb29de5bea6afd08370b1fce2',
         }
       ]
     }
@@ -55,7 +63,7 @@ final Map<String, dynamic> commandSigDatas2 = {
       "sigs": [
         {
           "pubKey":
-              '8d48094ca84b475ece568c4b0d8aacfb1de3278b6bd16b33a60c068b86a2ba51',
+              '049bce6f327763d0da82e20cd61972cd98f2737eb29de5bea6afd08370b1fce2',
         },
         {
           "pubKey":

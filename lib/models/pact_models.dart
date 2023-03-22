@@ -244,6 +244,38 @@ class PactCommand {
 /// GENERIC PACT ENDPOINT OBJECTS
 
 @JsonSerializable(includeIfNull: false)
+class PactResultMetadata {
+  /// The metadata that was sent with the transaction
+  final CommandMetadata publicMeta;
+
+  /// The block time in milliseconds
+  final int blockTime;
+
+  /// The previous block hash
+  final String prevBlockHash;
+
+  /// The block height
+  final int blockHeight;
+
+  PactResultMetadata({
+    required this.publicMeta,
+    required this.blockTime,
+    required this.prevBlockHash,
+    required this.blockHeight,
+  });
+
+  factory PactResultMetadata.fromJson(Map<String, dynamic> json) =>
+      _$PactResultMetadataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PactResultMetadataToJson(this);
+
+  @override
+  String toString() {
+    return 'PactResultMetadata{publicMeta: $publicMeta, blockTime: $blockTime, prevBlockHash: $prevBlockHash, blockHeight: $blockHeight}';
+  }
+}
+
+@JsonSerializable(includeIfNull: false)
 class PactResponse {
   final int gas;
   final PactResult result;
@@ -251,7 +283,7 @@ class PactResponse {
   final String logs;
   final String? metadata;
   final String? continuation;
-  final String txId;
+  final String? txId;
 
   PactResponse({
     required this.gas,

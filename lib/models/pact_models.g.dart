@@ -159,6 +159,23 @@ Map<String, dynamic> _$PactCommandToJson(PactCommand instance) =>
       'sigs': instance.sigs,
     };
 
+PactResultMetadata _$PactResultMetadataFromJson(Map<String, dynamic> json) =>
+    PactResultMetadata(
+      publicMeta:
+          CommandMetadata.fromJson(json['publicMeta'] as Map<String, dynamic>),
+      blockTime: json['blockTime'] as int,
+      prevBlockHash: json['prevBlockHash'] as String,
+      blockHeight: json['blockHeight'] as int,
+    );
+
+Map<String, dynamic> _$PactResultMetadataToJson(PactResultMetadata instance) =>
+    <String, dynamic>{
+      'publicMeta': instance.publicMeta,
+      'blockTime': instance.blockTime,
+      'prevBlockHash': instance.prevBlockHash,
+      'blockHeight': instance.blockHeight,
+    };
+
 PactResponse _$PactResponseFromJson(Map<String, dynamic> json) => PactResponse(
       gas: json['gas'] as int,
       result:
@@ -167,7 +184,7 @@ PactResponse _$PactResponseFromJson(Map<String, dynamic> json) => PactResponse(
       logs: json['logs'] as String,
       metadata: json['metadata'] as String?,
       continuation: json['continuation'] as String?,
-      txId: json['txId'] as String,
+      txId: json['txId'] as String?,
     );
 
 Map<String, dynamic> _$PactResponseToJson(PactResponse instance) {
@@ -186,7 +203,7 @@ Map<String, dynamic> _$PactResponseToJson(PactResponse instance) {
 
   writeNotNull('metadata', instance.metadata);
   writeNotNull('continuation', instance.continuation);
-  val['txId'] = instance.txId;
+  writeNotNull('txId', instance.txId);
   return val;
 }
 
