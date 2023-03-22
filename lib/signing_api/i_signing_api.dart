@@ -12,6 +12,7 @@ abstract class ISigningApi {
   /// Takes the SignRequest object, and constructs a Pact Command Payload with it
   PactCommandPayload constructPactCommandPayload({
     required SignRequest request,
+    required String signingPubKey,
   });
 
   /// Takes the SigningRequest object, constructs a Pact Payload with it

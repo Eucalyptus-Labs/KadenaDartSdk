@@ -1,3 +1,10 @@
+## 2.1.1
+
+- Added signingPubKey to `constructPactCommandPayload`
+- Made multiple values in `SignRequest` optional, and removed all defaults
+- Added defaults to `CommandMetadata`
+- If caps is empty, the `clist` in the PactCommandPayload will not exist now, so you can do unrestricted signing
+
 ## 2.1.0
 
 - Pact API rework and tests added

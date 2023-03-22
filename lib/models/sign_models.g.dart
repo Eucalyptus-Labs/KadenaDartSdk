@@ -20,18 +20,17 @@ Map<String, dynamic> _$DappCappToJson(DappCapp instance) => <String, dynamic>{
 
 SignRequest _$SignRequestFromJson(Map<String, dynamic> json) => SignRequest(
       code: json['code'] as String?,
-      data: json['data'] as Map<String, dynamic>? ?? const {},
+      data: json['data'] as Map<String, dynamic>?,
       sender: json['sender'] as String,
       networkId: json['networkId'] as String,
       chainId: json['chainId'] as String,
-      gasLimit: json['gasLimit'] as int? ?? 2500,
-      gasPrice: (json['gasPrice'] as num?)?.toDouble() ?? 1e-8,
-      signingPubKey: json['signingPubKey'] as String,
-      ttl: json['ttl'] as int? ?? 600,
+      gasLimit: json['gasLimit'] as int?,
+      gasPrice: (json['gasPrice'] as num?)?.toDouble(),
+      signingPubKey: json['signingPubKey'] as String?,
+      ttl: json['ttl'] as int?,
       caps: (json['caps'] as List<dynamic>?)
-              ?.map((e) => DappCapp.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const <DappCapp>[],
+          ?.map((e) => DappCapp.fromJson(e as Map<String, dynamic>))
+          .toList(),
     )
       ..pactCode = json['pactCode'] as String?
       ..envData = json['envData'] as Map<String, dynamic>?;
@@ -52,11 +51,11 @@ Map<String, dynamic> _$SignRequestToJson(SignRequest instance) {
   val['sender'] = instance.sender;
   val['networkId'] = instance.networkId;
   val['chainId'] = instance.chainId;
-  val['gasLimit'] = instance.gasLimit;
-  val['gasPrice'] = instance.gasPrice;
-  val['signingPubKey'] = instance.signingPubKey;
-  val['ttl'] = instance.ttl;
-  val['caps'] = instance.caps;
+  writeNotNull('gasLimit', instance.gasLimit);
+  writeNotNull('gasPrice', instance.gasPrice);
+  writeNotNull('signingPubKey', instance.signingPubKey);
+  writeNotNull('ttl', instance.ttl);
+  writeNotNull('caps', instance.caps);
   return val;
 }
 

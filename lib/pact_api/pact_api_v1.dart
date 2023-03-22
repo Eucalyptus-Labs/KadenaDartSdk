@@ -58,7 +58,7 @@ class PactApiV1 extends IPactApiV1 {
               'signatureValidation': signatureValidation,
             },
           );
-    print(uri.toString());
+    // print(uri.toString());
     // print('local');
     // print(jsonEncode(command));
     http.Response response = await http.post(

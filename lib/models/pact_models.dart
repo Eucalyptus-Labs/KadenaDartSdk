@@ -94,7 +94,7 @@ class Capability {
 
   Capability({
     required this.name,
-    required this.args,
+    this.args = const [],
   });
 
   factory Capability.fromJson(Map<String, dynamic> json) =>
@@ -108,10 +108,10 @@ class Capability {
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class SignerCapabilities {
   String pubKey;
-  List<Capability> clist;
+  List<Capability>? clist;
 
   SignerCapabilities({
     required this.pubKey,
@@ -153,12 +153,15 @@ class CommandMetadata {
 
   CommandMetadata({
     required this.chainId,
-    required this.gasLimit,
-    required this.gasPrice,
     required this.sender,
-    this.ttl = 600,
+    int? gasLimit,
+    double? gasPrice,
+    int? ttl,
     int? creationTime,
-  }) : creationTime = creationTime ?? Utils.getCreationTime();
+  })  : gasLimit = gasLimit ?? 2500,
+        gasPrice = gasPrice ?? 0.00001,
+        ttl = ttl ?? 600,
+        creationTime = creationTime ?? Utils.getCreationTime();
 
   factory CommandMetadata.fromJson(Map<String, dynamic> json) =>
       _$CommandMetadataFromJson(json);

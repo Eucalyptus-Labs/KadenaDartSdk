@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
 
 const String nodeUrlTestnet = 'https://api.testnet.chainweb.com';
@@ -32,7 +34,20 @@ final Map<String, dynamic> signingRequest1 = {
   "networkId": "testnet04",
   "chainId": "1",
   "signingPubKey": kp1.publicKey,
+  "caps": [
+    jsonDecode(jsonEncode(DappCapp(
+        role: 'Test', description: 'test', cap: Capability(name: 'coin.GAS'))))
+  ],
 };
+
+final Map<String, dynamic> signingRequest2 = {
+  "code": '"Hello"',
+  "sender": "sender",
+  "networkId": "testnet04",
+  "chainId": "1",
+};
+
+final signingRequests = [signingRequest1, signingRequest2];
 
 // Case 2: Failing data
 final Map<String, dynamic> signingRequestFailureParse = {

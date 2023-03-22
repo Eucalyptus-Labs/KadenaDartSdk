@@ -48,17 +48,20 @@ void main() {
 
   group('local', () {
     test('has correct outcomes', () async {
+      // Test signing request with caps
       SignRequest request1 = signingApi.parseSignRequest(
         request: signingRequest1,
       );
       PactCommandPayload pcp = signingApi.constructPactCommandPayload(
         request: request1,
+        signingPubKey: kp1.publicKey,
       );
       SignResult result = signingApi.sign(
         payload: pcp,
         keyPair: kp1,
       );
 
+      // Test setNodeUrl
       await pactApi.setNodeUrl(nodeUrl: nodeUrlTestnet);
 
       PactResponse response = await pactApi.local(
@@ -69,6 +72,28 @@ void main() {
       expect(response.result.status, 'success');
       expect(response.result.data, 'Hello');
 
+      // Test signing request without caps
+      request1 = signingApi.parseSignRequest(
+        request: signingRequest2,
+      );
+      pcp = signingApi.constructPactCommandPayload(
+        request: request1,
+        signingPubKey: kp1.publicKey,
+      );
+      result = signingApi.sign(
+        payload: pcp,
+        keyPair: kp1,
+      );
+
+      response = await pactApi.local(
+        chainId: '1',
+        command: result.body!,
+        preflight: false,
+      );
+      expect(response.result.status, 'success');
+      expect(response.result.data, 'Hello');
+
+      // Test host and preflight
       response = await pactApi.local(
         host:
             'https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1',
@@ -78,6 +103,7 @@ void main() {
       expect(response.result.status, 'success');
       expect(response.result.data, 'Hello');
 
+      // Test signing request with invalid caps
       try {
         response = await pactApi.local(
           chainId: '1',

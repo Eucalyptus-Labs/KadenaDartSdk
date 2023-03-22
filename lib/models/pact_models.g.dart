@@ -62,7 +62,7 @@ Map<String, dynamic> _$CommandPayloadToJson(CommandPayload instance) {
 
 Capability _$CapabilityFromJson(Map<String, dynamic> json) => Capability(
       name: json['name'] as String,
-      args: json['args'] as List<dynamic>,
+      args: json['args'] as List<dynamic>? ?? const [],
     );
 
 Map<String, dynamic> _$CapabilityToJson(Capability instance) =>
@@ -74,24 +74,33 @@ Map<String, dynamic> _$CapabilityToJson(Capability instance) =>
 SignerCapabilities _$SignerCapabilitiesFromJson(Map<String, dynamic> json) =>
     SignerCapabilities(
       pubKey: json['pubKey'] as String,
-      clist: (json['clist'] as List<dynamic>)
-          .map((e) => Capability.fromJson(e as Map<String, dynamic>))
+      clist: (json['clist'] as List<dynamic>?)
+          ?.map((e) => Capability.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$SignerCapabilitiesToJson(SignerCapabilities instance) =>
-    <String, dynamic>{
-      'pubKey': instance.pubKey,
-      'clist': instance.clist,
-    };
+Map<String, dynamic> _$SignerCapabilitiesToJson(SignerCapabilities instance) {
+  final val = <String, dynamic>{
+    'pubKey': instance.pubKey,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('clist', instance.clist);
+  return val;
+}
 
 CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) =>
     CommandMetadata(
       chainId: json['chainId'] as String,
-      gasLimit: json['gasLimit'] as int,
-      gasPrice: (json['gasPrice'] as num).toDouble(),
       sender: json['sender'] as String,
-      ttl: json['ttl'] as int? ?? 600,
+      gasLimit: json['gasLimit'] as int?,
+      gasPrice: (json['gasPrice'] as num?)?.toDouble(),
+      ttl: json['ttl'] as int?,
       creationTime: json['creationTime'] as int?,
     );
 

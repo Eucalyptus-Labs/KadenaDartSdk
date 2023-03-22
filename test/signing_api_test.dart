@@ -13,37 +13,51 @@ void main() {
   group('sign', () {
     test('has correct outcomes', () {
       // Case 1: 1 signature
-      SignRequest request1 = signingApi.parseSignRequest(
-        request: signingRequest1,
-      );
-      PactCommandPayload pcp = signingApi.constructPactCommandPayload(
-        request: request1,
-      );
-      SignResult result = signingApi.sign(
-        payload: pcp,
-        keyPair: kp1,
-      );
-      expect(result.error == null, true);
-      PactCommandPayload pactCommand = PactCommandPayload.fromJson(
-        jsonDecode(
-          result.body!.cmd,
-        ),
-      );
-      expect(pactCommand.payload.exec!.code, request1.code);
-      expect(pactCommand.meta.sender, request1.sender);
-      expect(pactCommand.networkId, request1.networkId);
-      expect(
-        CryptoLib.blakeHash(result.body!.cmd),
-        result.body!.hash,
-      );
-      expect(result.body!.sigs.length == 1, true);
-      expect(
-        CryptoLib.signHash(
-          hash: result.body!.hash,
-          privateKey: kp1.privateKey,
-        ),
-        result.body!.sigs[0].sig,
-      );
+      for (final request in signingRequests) {
+        SignRequest request1 = signingApi.parseSignRequest(
+          request: request,
+        );
+        print(request1);
+        PactCommandPayload pcp = signingApi.constructPactCommandPayload(
+          request: request1,
+          signingPubKey: kp1.publicKey,
+        );
+        SignResult result = signingApi.sign(
+          payload: pcp,
+          keyPair: kp1,
+        );
+        expect(result.error == null, true);
+
+        PactCommandPayload pactCommand = PactCommandPayload.fromJson(
+          jsonDecode(
+            result.body!.cmd,
+          ),
+        );
+        expect(pactCommand.payload.exec!.code, request1.code);
+        expect(pactCommand.meta.sender, request1.sender);
+        expect(pactCommand.networkId, request1.networkId);
+        expect(
+          CryptoLib.blakeHash(result.body!.cmd),
+          result.body!.hash,
+        );
+        expect(result.body!.sigs.length == 1, true);
+        expect(
+          CryptoLib.signHash(
+            hash: result.body!.hash,
+            privateKey: kp1.privateKey,
+          ),
+          result.body!.sigs[0].sig,
+        );
+
+        if (request1.caps != null) {
+          print('request1.caps: ${request1.caps}');
+          expect(pactCommand.signers[0].clist != null, true);
+          expect(
+            pactCommand.signers[0].clist!.length,
+            request1.caps!.map((e) => e.cap).toList().length,
+          );
+        }
+      }
     });
 
     test('has fails when expected with proper result', () {

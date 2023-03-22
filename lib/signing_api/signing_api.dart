@@ -44,6 +44,7 @@ ${request.toString()}''',
   @override
   PactCommandPayload constructPactCommandPayload({
     required SignRequest request,
+    required String signingPubKey,
   }) {
     return PactCommandPayload(
       networkId: request.networkId,
@@ -55,8 +56,10 @@ ${request.toString()}''',
       ),
       signers: [
         SignerCapabilities(
-          pubKey: request.signingPubKey,
-          clist: request.caps.map((e) => e.cap).toList(),
+          pubKey: request.signingPubKey ?? signingPubKey,
+          clist: request.caps == null || request.caps!.isEmpty
+              ? null
+              : request.caps?.map((e) => e.cap).toList(),
         ),
       ],
       meta: CommandMetadata(

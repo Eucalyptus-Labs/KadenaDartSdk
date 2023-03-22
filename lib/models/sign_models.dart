@@ -53,32 +53,32 @@ class SignRequest {
   String chainId;
 
   /// The maximum amount of gas to be used for the transaction.
-  int gasLimit;
+  int? gasLimit;
 
   /// The price of gas to be used for the transaction.
   /// Generally something like 1e-5 or 1e-8
-  double gasPrice;
+  double? gasPrice;
 
   /// The public key that will sign the transaction.
-  String signingPubKey;
+  String? signingPubKey;
 
   /// Time to live in seconds
-  int ttl;
+  int? ttl;
 
   /// The role and descriptiong are displayed to the user when signing
-  List<DappCapp> caps;
+  List<DappCapp>? caps;
 
   SignRequest({
     required this.code,
-    this.data = const {},
+    this.data,
     required this.sender,
     required this.networkId,
     required this.chainId,
-    this.gasLimit = 2500,
-    this.gasPrice = 1e-8,
-    required this.signingPubKey,
-    this.ttl = 600,
-    this.caps = const <DappCapp>[],
+    this.gasLimit,
+    this.gasPrice,
+    this.signingPubKey,
+    this.ttl,
+    this.caps,
   })  : pactCode = code,
         envData = data;
 
