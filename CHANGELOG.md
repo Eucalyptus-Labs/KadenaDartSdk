@@ -1,3 +1,8 @@
+## 2.1.2
+
+- Added `toSigner` to `QuicksignSigner` class
+- Added `toPactCommand` to `QuicksignResponse` class. It returns a `QuicksignResponsePactCommand` object, which will have a `pactCommand` if the outcome was successful and all signatures are satisfied, and a msg if there was an error or the signatures are not satisfied
+
 ## 2.1.1
 
 - Added signingPubKey to `constructPactCommandPayload`
