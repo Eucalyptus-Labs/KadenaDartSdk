@@ -82,8 +82,25 @@ class QuicksignOutcome {
   }
 }
 
+class QuicksignResponsePactCommand {
+  final String? msg;
+  final PactCommand? pactCommand;
+
+  QuicksignResponsePactCommand({
+    this.msg,
+    this.pactCommand,
+  });
+
+  @override
+  String toString() {
+    return 'QuicksignResponsePactCommand{msg: $msg, pactCommand: $pactCommand}';
+  }
+}
+
 @JsonSerializable()
 class QuicksignResponse {
+  static const missingSignatures = 'Missing signatures';
+
   CommandSigData commandSigData;
   QuicksignOutcome outcome;
 
@@ -92,16 +109,27 @@ class QuicksignResponse {
     required this.outcome,
   });
 
-  PactCommand? toPactCommand() {
+  QuicksignResponsePactCommand toPactCommand() {
     // If there was an error, return null
     if (outcome.result != QuicksignOutcome.success) {
-      return null;
+      return QuicksignResponsePactCommand(
+        msg: '${outcome.result}: ${outcome.msg}',
+      );
     }
 
-    return PactCommand(
-      cmd: commandSigData.cmd,
-      sigs: commandSigData.sigs.map((e) => e.toSigner()).toList(),
-      hash: outcome.hash!,
+    // If any of the signers have no sig, return null
+    if (commandSigData.sigs.any((e) => e.sig == null)) {
+      return QuicksignResponsePactCommand(
+        msg: missingSignatures,
+      );
+    }
+
+    return QuicksignResponsePactCommand(
+      pactCommand: PactCommand(
+        cmd: commandSigData.cmd,
+        sigs: commandSigData.sigs.map((e) => e.toSigner()).toList(),
+        hash: outcome.hash!,
+      ),
     );
   }
 

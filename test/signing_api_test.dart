@@ -99,6 +99,7 @@ void main() {
         result.commandSigData.sigs[0].sig != null,
         true,
       );
+      expect(result.toPactCommand().pactCommand != null, true);
       // expect(result.commandSigData.sigs[0].sig, expectedSigKp1);
 
       // Case 2a: 2 required signatures, 1 keypair
@@ -125,6 +126,7 @@ void main() {
         result.commandSigData.sigs[1].sig == null,
         true,
       );
+      expect(result.toPactCommand().msg, QuicksignResponse.missingSignatures);
 
       // Case 2b: 2 required signatures, 1 keypair, second sig given
       quicksignRequest2 = signingApi.parseQuicksignRequest(
@@ -150,6 +152,8 @@ void main() {
         true,
       );
       expect(result.commandSigData.sigs[1].sig, expectedSigKp2);
+      // Missing 1 sig, so no pact command
+      expect(result.toPactCommand().msg, QuicksignResponse.missingSignatures);
     });
 
     test('all has correct outcomes', () {
@@ -238,6 +242,10 @@ void main() {
         result.outcome.msg,
         '${Constants.quicksignSignFailure}${kp3.publicKey}',
       );
+      expect(
+        result.toPactCommand().msg,
+        '${QuicksignOutcome.failure}: ${Constants.quicksignSignFailure}${kp3.publicKey}',
+      );
 
       // Case 2: No sig
       // Expect that quicksign with commandSigData fails with quicksign error in response
@@ -253,6 +261,10 @@ void main() {
       );
       expect(result.commandSigData.cmd, commandSigData.cmd);
       expect(result.outcome.result, QuicksignOutcome.noSig);
+      expect(
+        result.toPactCommand().msg,
+        '${QuicksignOutcome.noSig}: null',
+      );
     });
 
     test('all fails when expected with proper result', () {
