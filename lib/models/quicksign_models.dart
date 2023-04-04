@@ -92,6 +92,19 @@ class QuicksignResponse {
     required this.outcome,
   });
 
+  PactCommand? toPactCommand() {
+    // If there was an error, return null
+    if (outcome.result != QuicksignOutcome.success) {
+      return null;
+    }
+
+    return PactCommand(
+      cmd: commandSigData.cmd,
+      sigs: commandSigData.sigs.map((e) => e.toSigner()).toList(),
+      hash: outcome.hash!,
+    );
+  }
+
   factory QuicksignResponse.fromJson(Map<String, dynamic> json) =>
       _$QuicksignResponseFromJson(json);
 
