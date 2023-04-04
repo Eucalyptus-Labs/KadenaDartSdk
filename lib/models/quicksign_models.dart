@@ -10,7 +10,7 @@ class QuicksignSigner {
 
   QuicksignSigner({
     required this.pubKey,
-    required this.sig,
+    this.sig,
   });
 
   Signer toSigner({

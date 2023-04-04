@@ -1,3 +1,7 @@
+## 2.1.3
+
+- Made `sig` in QuicksignSigner not be required
+
 ## 2.1.2
 
 - Added `toSigner` to `QuicksignSigner` class
