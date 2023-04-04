@@ -4,7 +4,10 @@ part 'walletconnect_models.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class AccountRequest {
+  /// The WalletConnect CAIP-10 account
   final String account;
+
+  /// The contracts that the wallet should return kadena accounts for.
   final List<String>? contracts;
 
   AccountRequest({
@@ -25,6 +28,7 @@ class AccountRequest {
 
 @JsonSerializable(includeIfNull: false)
 class GetAccountsRequest {
+  /// The list of accounts that the wallet should return kadena accounts for.
   final List<AccountRequest> accounts;
 
   GetAccountsRequest({
@@ -44,8 +48,16 @@ class GetAccountsRequest {
 
 @JsonSerializable(includeIfNull: false)
 class KadenaAccount {
+  /// The account name on the chain
+  /// This will generally be a k: account
+  /// Example: k:abc123
   final String name;
+
+  /// The contract that this account is associated with
+  /// Example: coin
   final String contract;
+
+  /// The chains that this account exists on
   final List<String> chains;
 
   KadenaAccount({
@@ -67,8 +79,16 @@ class KadenaAccount {
 
 @JsonSerializable(includeIfNull: false)
 class AccountResponse {
+  /// The WalletConnect CAIP-10 account
+  /// Example: kadena:mainnet01:abc123
   final String account;
+
+  /// The public key of the account
+  /// Example abc123
   final String publicKey;
+
+  /// The list of Kadena accounts associated with the public key
+  /// along with the chain the account exists on.
   final List<KadenaAccount> kadenaAccounts;
 
   AccountResponse({
@@ -90,6 +110,7 @@ class AccountResponse {
 
 @JsonSerializable(includeIfNull: false)
 class GetAccountsResponse {
+  /// The list of accounts that the wallet has private keys for.
   final List<AccountResponse> accounts;
 
   GetAccountsResponse({

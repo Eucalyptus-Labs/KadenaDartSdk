@@ -13,6 +13,16 @@ class QuicksignSigner {
     required this.sig,
   });
 
+  Signer toSigner({
+    bool includePubKey = false,
+    bool includeSig = true,
+  }) {
+    return Signer(
+      pubKey: includePubKey ? pubKey : null,
+      sig: includeSig ? sig : null,
+    );
+  }
+
   factory QuicksignSigner.fromJson(Map<String, dynamic> json) =>
       _$QuicksignSignerFromJson(json);
 

@@ -3,15 +3,15 @@ import 'package:kadena_dart_sdk/models/pact_models.dart';
 
 part 'sign_models.g.dart';
 
-// {
-// 	role: String, // The role of the capability
-// 	description: String, // A description of the capability
-// 	cap: Capability
-// }
 @JsonSerializable(includeIfNull: false)
 class DappCapp {
+  /// The role of the capability
   String role;
+
+  /// A description of the capability
   String description;
+
+  /// The capability to include in the transaction
   Capability cap;
 
   DappCapp({
@@ -95,8 +95,17 @@ class SignRequest {
 
 @JsonSerializable(includeIfNull: false)
 class SignResult {
+  /// The signed pact command.
+  /// 'body' is the official name in the Kadena Wallet Signing API spec.
+  /// body and/or signedCmd will be set.
   final PactCommand? body;
+
+  /// The signed pact command.
+  /// This is the implementation based on eckoWallet.
+  /// body and/or signedCmd will be set.
   final PactCommand? signedCmd;
+
+  /// The error message if the signing failed.
   final SignRequestError? error;
 
   SignResult({
@@ -118,6 +127,7 @@ class SignResult {
 
 @JsonSerializable(includeIfNull: false)
 class SignRequestError {
+  /// The error message
   final String msg;
 
   SignRequestError({
