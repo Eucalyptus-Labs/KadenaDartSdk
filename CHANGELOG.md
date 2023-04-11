@@ -1,3 +1,8 @@
+## 2.1.4
+
+- Added `getNetworkId` to `IPactApiV1` interface and updated implementation
+- Made `ExecCommand` `data` field not required, and default to blank
+
 ## 2.1.3
 
 - Made `sig` in QuicksignSigner not be required

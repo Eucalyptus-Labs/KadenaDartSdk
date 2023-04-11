@@ -12,6 +12,10 @@ abstract class IPactApiV1 {
   /// This will fetch the networkId from the node's config and store it for future use.
   Future<void> setNodeUrl({required String nodeUrl});
 
+  /// Get the networkId of the node set by [setNodeUrl].
+  /// Returns null if the nodeUrl has not been set.
+  String? getNetworkId();
+
   /// Build a url for the pact api from the given chainId and endpoint.
   /// Will use the nodeUrl and the networkId set by [setNodeUrl].
   Uri buildUrl({

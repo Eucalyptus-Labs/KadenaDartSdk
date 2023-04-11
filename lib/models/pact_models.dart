@@ -20,12 +20,12 @@ class KadenaSignKeyPair {
 
 @JsonSerializable()
 class ExecMessage {
-  Map<String, dynamic> data;
   String code;
+  Map<String, dynamic> data;
 
   ExecMessage({
-    required this.data,
     required this.code,
+    this.data = const {},
   });
 
   factory ExecMessage.fromJson(Map<String, dynamic> json) =>

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class PactApiV1 extends IPactApiV1 {
   String _nodeUrl = '';
-  String _networkId = '';
+  String? _networkId;
 
   @override
   Future<void> setNodeUrl({required String nodeUrl}) async {
@@ -21,6 +21,11 @@ class PactApiV1 extends IPactApiV1 {
     _networkId = config['chainwebVersion'];
 
     // return _networkId;
+  }
+
+  @override
+  String? getNetworkId() {
+    return _networkId;
   }
 
   @override
