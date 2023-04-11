@@ -10,7 +10,17 @@ abstract class IPactApiV1 {
   /// Set the target node that the API to send requests to.
   /// Example: https://api.chainweb.com
   /// This will fetch the networkId from the node's config and store it for future use.
-  Future<void> setNodeUrl({required String nodeUrl});
+  /// Returns true if it was able to get the networkId from the node.
+  Future<bool> setNodeUrl({required String nodeUrl});
+
+  /// Get the nodeUrl set by [setNodeUrl].
+  String? getNodeUrl();
+
+  /// Set the networkId. This is used to build the url for the pact api.
+  /// Not necessary if [setNodeUrl] successfully fetched the networkId from the node.
+  /// When running in flutter web, [setNodeUrl] with fail due to CORS, and you will
+  /// have to manually set the networkId with this funcion.
+  void setNetworkId({required String networkId});
 
   /// Get the networkId of the node set by [setNodeUrl].
   /// Returns null if the nodeUrl has not been set.

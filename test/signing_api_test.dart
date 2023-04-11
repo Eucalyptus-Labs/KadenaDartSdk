@@ -17,7 +17,7 @@ void main() {
         SignRequest request1 = signingApi.parseSignRequest(
           request: request,
         );
-        print(request1);
+        // print(request1);
         PactCommandPayload pcp = signingApi.constructPactCommandPayload(
           request: request1,
           signingPubKey: kp1.publicKey,
@@ -50,7 +50,7 @@ void main() {
         );
 
         if (request1.caps != null) {
-          print('request1.caps: ${request1.caps}');
+          // print('request1.caps: ${request1.caps}');
           expect(pactCommand.signers[0].clist != null, true);
           expect(
             pactCommand.signers[0].clist!.length,
@@ -292,7 +292,7 @@ void main() {
         ),
         throwsA(
           predicate((e) {
-            print((e as QuicksignResult).error!.type);
+            // print((e as QuicksignResult).error!.type);
             return e is QuicksignResult &&
                 e.error != null &&
                 e.error!.type == QuicksignError.emptyList;

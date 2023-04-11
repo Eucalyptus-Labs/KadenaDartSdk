@@ -1,3 +1,7 @@
+## 2.1.5
+
+- Added `setNetworkId` and `getNodeUrl` to `IPactApiV1` interface and updated implementation
+
 ## 2.1.4
 
 - Added `getNetworkId` to `IPactApiV1` interface and updated implementation

@@ -68,7 +68,10 @@ class ContinuationMessage {
 
 @JsonSerializable(includeIfNull: false)
 class CommandPayload {
+  /// The exec message to send to the chain.
   ExecMessage? exec;
+
+  /// The continuation message to send to the chain, used to continue a pact.
   ContinuationMessage? cont;
 
   CommandPayload({

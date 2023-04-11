@@ -5,22 +5,36 @@ import 'package:kadena_dart_sdk/pact_api/i_pact_api_v1.dart';
 import 'package:http/http.dart' as http;
 
 class PactApiV1 extends IPactApiV1 {
-  String _nodeUrl = '';
+  String? _nodeUrl;
   String? _networkId;
 
   @override
-  Future<void> setNodeUrl({required String nodeUrl}) async {
+  Future<bool> setNodeUrl({required String nodeUrl}) async {
     // Remove trailing slash if present
     _nodeUrl = nodeUrl.endsWith('/')
         ? nodeUrl.substring(0, nodeUrl.length - 1)
         : nodeUrl;
 
-    // Get the networkId from the node's config
-    http.Response response = await http.get(Uri.parse('$_nodeUrl/config'));
-    Map<String, dynamic> config = jsonDecode(response.body);
-    _networkId = config['chainwebVersion'];
+    try {
+      // Get the networkId from the node's config
+      http.Response response = await http.get(Uri.parse('$_nodeUrl/config'));
+      Map<String, dynamic> config = jsonDecode(response.body);
+      _networkId = config['chainwebVersion'];
+    } catch (_) {
+      return false;
+    }
 
-    // return _networkId;
+    return true;
+  }
+
+  @override
+  String? getNodeUrl() {
+    return _nodeUrl;
+  }
+
+  @override
+  void setNetworkId({required String networkId}) {
+    _networkId = networkId;
   }
 
   @override
