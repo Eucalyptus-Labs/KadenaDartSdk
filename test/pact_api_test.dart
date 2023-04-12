@@ -11,7 +11,61 @@ void main() {
   ISigningApi signingApi = SigningApi();
   IPactApiV1 pactApi = PactApiV1();
 
-  group('setNodeUrl and buildUrl', () {
+  group('buildUrl', () {
+    test('has correct outcomes', () async {
+      final List<String> urls = [
+        nodeUrlTestnet,
+        '$nodeUrlTestnet/',
+      ];
+      for (final String url in urls) {
+        await pactApi.setNodeUrl(nodeUrl: url);
+        String uri = pactApi.buildUrl(
+          chainId: '0',
+        );
+        expect(
+          uri.toString(),
+          'https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/0/pact/api/v1',
+        );
+      }
+
+      await pactApi.setNodeUrl(
+        nodeUrl: nodeUrlMainnet,
+        queryNetworkId: false,
+      );
+
+      String uri = pactApi.buildUrl(
+        chainId: '0',
+      );
+      expect(
+        uri.toString(),
+        'https://api.chainweb.com/chainweb/0.0/testnet04/chain/0/pact/api/v1',
+      );
+
+      pactApi.setNetworkId(
+        networkId: 'mainnet01',
+      );
+
+      uri = pactApi.buildUrl(
+        chainId: '0',
+      );
+      expect(
+        uri.toString(),
+        'https://api.chainweb.com/chainweb/0.0/mainnet01/chain/0/pact/api/v1',
+      );
+
+      uri = pactApi.buildUrl(
+        chainId: '0',
+        nodeUrl: 'https://api.chainweb.com',
+        networkId: 'mainnet01',
+      );
+      expect(
+        uri.toString(),
+        'https://api.chainweb.com/chainweb/0.0/mainnet01/chain/0/pact/api/v1',
+      );
+    });
+  });
+
+  group('setNodeUrl and buildEndpoint', () {
     test('have correct outcomes', () async {
       final List<String> urls = [
         nodeUrlTestnet,
@@ -19,7 +73,7 @@ void main() {
       ];
       for (final String url in urls) {
         await pactApi.setNodeUrl(nodeUrl: url);
-        Uri uri = pactApi.buildUrl(
+        Uri uri = pactApi.buildEndpoint(
           chainId: '0',
           endpoint: PactApiV1Endpoints.local,
           queryParameters: {
@@ -33,11 +87,38 @@ void main() {
         );
       }
 
-      await pactApi.setNodeUrl(nodeUrl: nodeUrlMainnet);
+      await pactApi.setNodeUrl(
+        nodeUrl: nodeUrlMainnet,
+        queryNetworkId: false,
+      );
 
-      Uri uri = pactApi.buildUrl(
+      Uri uri = pactApi.buildEndpoint(
         chainId: '0',
         endpoint: PactApiV1Endpoints.send,
+      );
+      expect(
+        uri.toString(),
+        'https://api.chainweb.com/chainweb/0.0/testnet04/chain/0/pact/api/v1/send',
+      );
+
+      pactApi.setNetworkId(
+        networkId: 'mainnet01',
+      );
+
+      uri = pactApi.buildEndpoint(
+        chainId: '0',
+        endpoint: PactApiV1Endpoints.send,
+      );
+      expect(
+        uri.toString(),
+        'https://api.chainweb.com/chainweb/0.0/mainnet01/chain/0/pact/api/v1/send',
+      );
+
+      uri = pactApi.buildEndpoint(
+        chainId: '0',
+        endpoint: PactApiV1Endpoints.send,
+        nodeUrl: 'https://api.chainweb.com',
+        networkId: 'mainnet01',
       );
       expect(
         uri.toString(),
@@ -95,7 +176,7 @@ void main() {
 
       // Test host and preflight
       response = await pactApi.local(
-        host:
+        url:
             'https://api.testnet.chainweb.com/chainweb/0.0/testnet04/chain/1/pact/api/v1',
         command: result.body!,
         preflight: false,

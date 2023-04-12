@@ -9,22 +9,27 @@ class PactApiV1 extends IPactApiV1 {
   String? _networkId;
 
   @override
-  Future<bool> setNodeUrl({required String nodeUrl}) async {
+  Future<bool> setNodeUrl({
+    required String nodeUrl,
+    bool queryNetworkId = true,
+  }) async {
     // Remove trailing slash if present
     _nodeUrl = nodeUrl.endsWith('/')
         ? nodeUrl.substring(0, nodeUrl.length - 1)
         : nodeUrl;
 
-    try {
-      // Get the networkId from the node's config
-      http.Response response = await http.get(Uri.parse('$_nodeUrl/config'));
-      Map<String, dynamic> config = jsonDecode(response.body);
-      _networkId = config['chainwebVersion'];
-    } catch (_) {
-      return false;
+    if (queryNetworkId) {
+      try {
+        // Get the networkId from the node's config
+        http.Response response = await http.get(Uri.parse('$_nodeUrl/config'));
+        Map<String, dynamic> config = jsonDecode(response.body);
+        _networkId = config['chainwebVersion'];
+      } catch (_) {
+        return false;
+      }
     }
 
-    return true;
+    return queryNetworkId;
   }
 
   @override
@@ -43,35 +48,63 @@ class PactApiV1 extends IPactApiV1 {
   }
 
   @override
-  Uri buildUrl({
+  String buildUrl({
     required String chainId,
+    String? nodeUrl,
+    String? networkId,
+  }) {
+    return '${nodeUrl ?? _nodeUrl}/chainweb/0.0/${networkId ?? _networkId}/chain/$chainId/pact/api/v1';
+  }
+
+  @override
+  Uri buildEndpoint({
     required PactApiV1Endpoints endpoint,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
     Map<String, dynamic>? queryParameters,
   }) {
-    String url =
-        '$_nodeUrl/chainweb/0.0/$_networkId/chain/$chainId/pact/api/v1/${endpoint.name}';
+    String path = url ??
+        buildUrl(
+          chainId: chainId!,
+          nodeUrl: nodeUrl,
+          networkId: networkId,
+        );
+    path += '/${endpoint.name}';
     if (queryParameters != null) {
-      url += '?';
+      path += '?';
       queryParameters.forEach((key, value) {
-        url += '$key=$value&';
+        path += '$key=$value&';
       });
     }
-    return Uri.parse(url);
+    return Uri.parse(path);
   }
 
   @override
   Future<PactResponse> local({
-    String? chainId,
     required PactCommand command,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
     bool preflight = true,
     bool signatureValidation = true,
-    String? host,
+    String? url,
   }) async {
-    Uri uri = host != null
-        ? Uri.parse('$host/local')
-        : buildUrl(
-            chainId: chainId!,
+    Uri uri = url == null
+        ? buildEndpoint(
             endpoint: PactApiV1Endpoints.local,
+            chainId: chainId!,
+            nodeUrl: nodeUrl,
+            networkId: networkId,
+            queryParameters: {
+              'preflight': preflight,
+              'signatureValidation': signatureValidation,
+            },
+          )
+        : buildEndpoint(
+            endpoint: PactApiV1Endpoints.local,
+            url: url,
             queryParameters: {
               'preflight': preflight,
               'signatureValidation': signatureValidation,
@@ -103,15 +136,22 @@ class PactApiV1 extends IPactApiV1 {
 
   @override
   Future<PactSendResponse> send({
-    String? chainId,
     required PactSendRequest commands,
-    String? host,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
   }) async {
-    Uri uri = host != null
-        ? Uri.parse('$host/send')
-        : buildUrl(
-            chainId: chainId!,
+    Uri uri = url == null
+        ? buildEndpoint(
             endpoint: PactApiV1Endpoints.send,
+            chainId: chainId!,
+            nodeUrl: nodeUrl,
+            networkId: networkId,
+          )
+        : buildEndpoint(
+            endpoint: PactApiV1Endpoints.send,
+            url: url,
           );
     http.Response response = await http.post(
       uri,
@@ -136,16 +176,24 @@ class PactApiV1 extends IPactApiV1 {
 
   @override
   Future<PactResponse> listen({
-    String? chainId,
     required PactListenRequest request,
-    String? host,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
   }) async {
-    Uri uri = host != null
-        ? Uri.parse('$host/listen')
-        : buildUrl(
-            chainId: chainId!,
+    Uri uri = url == null
+        ? buildEndpoint(
             endpoint: PactApiV1Endpoints.listen,
+            chainId: chainId!,
+            nodeUrl: nodeUrl,
+            networkId: networkId,
+          )
+        : buildEndpoint(
+            endpoint: PactApiV1Endpoints.listen,
+            url: url,
           );
+
     http.Response response = await http.post(
       uri,
       headers: <String, String>{

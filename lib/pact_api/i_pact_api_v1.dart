@@ -9,9 +9,13 @@ enum PactApiV1Endpoints {
 abstract class IPactApiV1 {
   /// Set the target node that the API to send requests to.
   /// Example: https://api.chainweb.com
-  /// This will fetch the networkId from the node's config and store it for future use.
+  /// If [queryNetworkId] is true, this will fetch the networkId
+  /// from the node's config and store it for future use.
   /// Returns true if it was able to get the networkId from the node.
-  Future<bool> setNodeUrl({required String nodeUrl});
+  Future<bool> setNodeUrl({
+    required String nodeUrl,
+    bool queryNetworkId = true,
+  });
 
   /// Get the nodeUrl set by [setNodeUrl].
   String? getNodeUrl();
@@ -26,48 +30,70 @@ abstract class IPactApiV1 {
   /// Returns null if the nodeUrl has not been set.
   String? getNetworkId();
 
-  /// Build a url for the pact api from the given chainId and endpoint.
-  /// Will use the nodeUrl and the networkId set by [setNodeUrl].
-  Uri buildUrl({
+  /// Build a url for the pact api from the given chainId
+  /// Will use the nodeUrl and the networkId set by [setNodeUrl] and/or [setNetworkId]
+  /// if [nodeUrl] and [networkId] are not provided.
+  String buildUrl({
     required String chainId,
+    String? nodeUrl,
+    String? networkId,
+  });
+
+  Uri buildEndpoint({
     required PactApiV1Endpoints endpoint,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
     Map<String, dynamic>? queryParameters,
   });
 
   /// Send a local pact command to the node
-  /// The [chainId] is the chainId to execute the command on. It is required if [host] is not provided.
   /// The [command] is the pact command to execute dirtily.
+  /// The [chainId] is the chainId to execute the command on. It is required if [url] is not provided.
+  /// The [nodeUrl] and the [networkId] are used to override the defaults set
+  /// by [setNodeUrl] and [setNetworkId] when building the url for the pact api.
+  /// The [url] is the full node url, example: https://api.chainweb.com/chainweb/0.0/testnet01/chain/0/pact/api/v1
+  /// If [url] is provided, the [chainId] is not required.
   /// The [preflight] is a boolean to enable/disable preflight.
   /// If enabled, the command will be executed in a simulated transaction as close to [send] as possible.
   /// The [signatureValidation] is a boolean to enable/disable signature validation in the local call.
-  /// The [host] is the full node url, example: https://api.chainweb.com/chainweb/0.0/testnet01/chain/0/pact/api/v1
-  /// If [host] is provided, the [chainId] is not required.
   Future<PactResponse> local({
-    String? chainId,
     required PactCommand command,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
     bool preflight = true,
     bool signatureValidation = true,
-    String? host,
   });
 
   /// Send a pact command to the node
-  /// The [chainId] is the chainId to execute the command on. It is required if [host] is not provided.
-  /// The [host] is the full node url, example: https://api.chainweb.com/chainweb/0.0/testnet01/chain/0/pact/api/v1
-  /// If [host] is provided, the [chainId] is not required.
+  /// The [chainId] is the chainId to execute the command on. It is required if [url] is not provided.
+  /// The [nodeUrl] and the [networkId] are used to override the defaults set
+  /// by [setNodeUrl] and [setNetworkId] when building the url for the pact api.
+  /// The [url] is the full node url, example: https://api.chainweb.com/chainweb/0.0/testnet01/chain/0/pact/api/v1
+  /// If [url] is provided, the [chainId] is not required.
   Future<PactSendResponse> send({
-    String? chainId,
     required PactSendRequest commands,
-    String? host,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
   });
 
   /// Listen for a pact command to be included in a block
   /// This will block until the command has been committed to a block.
-  /// The [chainId] is the chainId to execute the command on. It is required if [host] is not provided.
-  /// The [host] is the full node url, example: https://api.chainweb.com/chainweb/0.0/testnet01/chain/0/pact/api/v1
-  /// If [host] is provided, the [chainId] is not required.
+  /// The [chainId] is the chainId to execute the command on. It is required if [url] is not provided.
+  /// The [nodeUrl] and the [networkId] are used to override the defaults set
+  /// by [setNodeUrl] and [setNetworkId] when building the url for the pact api.
+  /// The [url] is the full node url, example: https://api.chainweb.com/chainweb/0.0/testnet01/chain/0/pact/api/v1
+  /// If [url] is provided, the [chainId] is not required.
   Future<PactResponse> listen({
-    String? chainId,
     required PactListenRequest request,
-    String? host,
+    String? chainId,
+    String? nodeUrl,
+    String? networkId,
+    String? url,
   });
 }

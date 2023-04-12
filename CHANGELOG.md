@@ -1,3 +1,10 @@
+## 2.2.0
+
+- Added `buildEndpoint` to `IPactApiV1` interface, and updated `buildUrl` to return the full path to the Pact API with the endpoint.
+- Fixed bugs with local where the query parameters were not being added to the URL
+- Updated tests
+- Added nodeUrl and networkId overrides to all Pact API functions
+
 ## 2.1.5
 
 - Added `setNetworkId` and `getNodeUrl` to `IPactApiV1` interface and updated implementation
