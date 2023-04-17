@@ -29,6 +29,18 @@ class DappCapp {
   String toString() {
     return 'DappCapp{role: $role, description: $description, cap: $cap}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DappCapp &&
+          runtimeType == other.runtimeType &&
+          role == other.role &&
+          description == other.description &&
+          cap == other.cap;
+
+  @override
+  int get hashCode => role.hashCode ^ description.hashCode ^ cap.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -91,6 +103,35 @@ class SignRequest {
   String toString() {
     return 'SignRequest{code or pactCode: ${code ?? pactCode}, data or envData: ${data ?? envData}, sender: $sender, networkId: $networkId, chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, signingPubKey: $signingPubKey, ttl: $ttl, caps: $caps}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SignRequest &&
+          runtimeType == other.runtimeType &&
+          code == other.code &&
+          data == other.data &&
+          sender == other.sender &&
+          networkId == other.networkId &&
+          chainId == other.chainId &&
+          gasLimit == other.gasLimit &&
+          gasPrice == other.gasPrice &&
+          signingPubKey == other.signingPubKey &&
+          ttl == other.ttl &&
+          caps == other.caps;
+
+  @override
+  int get hashCode =>
+      code.hashCode ^
+      data.hashCode ^
+      sender.hashCode ^
+      networkId.hashCode ^
+      chainId.hashCode ^
+      gasLimit.hashCode ^
+      gasPrice.hashCode ^
+      signingPubKey.hashCode ^
+      ttl.hashCode ^
+      caps.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -123,6 +164,18 @@ class SignResult {
   String toString() {
     return 'SignResult{body or signedCmd: ${body ?? signedCmd}, error: $error}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SignResult &&
+          runtimeType == other.runtimeType &&
+          body == other.body &&
+          signedCmd == other.signedCmd &&
+          error == other.error;
+
+  @override
+  int get hashCode => body.hashCode ^ signedCmd.hashCode ^ error.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -143,4 +196,14 @@ class SignRequestError {
   String toString() {
     return 'SignRequestError{msg: $msg}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SignRequestError &&
+          runtimeType == other.runtimeType &&
+          msg == other.msg;
+
+  @override
+  int get hashCode => msg.hashCode;
 }

@@ -24,6 +24,17 @@ class AccountRequest {
   String toString() {
     return 'AccountRequest{account: $account, contracts: $contracts}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AccountRequest &&
+          runtimeType == other.runtimeType &&
+          account == other.account &&
+          contracts == other.contracts;
+
+  @override
+  int get hashCode => account.hashCode ^ contracts.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -44,6 +55,16 @@ class GetAccountsRequest {
   String toString() {
     return 'GetAccountsRequest{accounts: $accounts}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GetAccountsRequest &&
+          runtimeType == other.runtimeType &&
+          accounts == other.accounts;
+
+  @override
+  int get hashCode => accounts.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -75,6 +96,18 @@ class KadenaAccount {
   String toString() {
     return 'KadenaAccount{name: $name, contract: $contract, chains: $chains}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is KadenaAccount &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          contract == other.contract &&
+          chains == other.chains;
+
+  @override
+  int get hashCode => name.hashCode ^ contract.hashCode ^ chains.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -106,6 +139,19 @@ class AccountResponse {
   String toString() {
     return 'AccountResponse{account: $account, publicKey: $publicKey, kadenaAccounts: $kadenaAccounts}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AccountResponse &&
+          runtimeType == other.runtimeType &&
+          account == other.account &&
+          publicKey == other.publicKey &&
+          kadenaAccounts == other.kadenaAccounts;
+
+  @override
+  int get hashCode =>
+      account.hashCode ^ publicKey.hashCode ^ kadenaAccounts.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -126,4 +172,14 @@ class GetAccountsResponse {
   String toString() {
     return 'GetAccountsResponse{accounts: $accounts}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GetAccountsResponse &&
+          runtimeType == other.runtimeType &&
+          accounts == other.accounts;
+
+  @override
+  int get hashCode => accounts.hashCode;
 }

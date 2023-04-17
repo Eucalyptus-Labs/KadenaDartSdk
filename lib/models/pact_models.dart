@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kadena_dart_sdk/utils/utils.dart';
 
@@ -37,6 +38,19 @@ class ExecMessage {
   String toString() {
     return 'ExecMessage{data: $data, code: $code}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ExecMessage &&
+        other.code == code &&
+        mapEquals(other.data, data);
+  }
+
+  @override
+  int get hashCode =>
+      code.hashCode ^
+      data.keys.fold(0, (i, e) => i + e.hashCode) ^
+      data.values.fold(0, (i, e) => i + e.hashCode);
 }
 
 @JsonSerializable()
@@ -64,6 +78,25 @@ class ContinuationMessage {
   String toString() {
     return 'ContinuationMessage{pactId: $pactId, step: $step, rollback: $rollback, data: $data, proof: $proof}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ContinuationMessage &&
+        other.pactId == pactId &&
+        other.step == step &&
+        other.rollback == rollback &&
+        mapEquals(other.data, data) &&
+        other.proof == proof;
+  }
+
+  @override
+  int get hashCode =>
+      pactId.hashCode ^
+      step.hashCode ^
+      rollback.hashCode ^
+      data.keys.fold(0, (i, e) => i + e.hashCode) ^
+      data.values.fold(0, (i, e) => i + e.hashCode) ^
+      proof.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -88,6 +121,14 @@ class CommandPayload {
   String toString() {
     return 'CommandPayload{exec: $exec, cont: $cont}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CommandPayload && other.exec == exec && other.cont == cont;
+  }
+
+  @override
+  int get hashCode => exec.hashCode ^ cont.hashCode;
 }
 
 @JsonSerializable()
@@ -109,6 +150,16 @@ class Capability {
   String toString() {
     return 'Capability{name: $name, args: $args}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Capability &&
+        other.name == name &&
+        listEquals(other.args, args);
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ args.fold(0, (i, e) => i + e.hashCode);
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -118,7 +169,7 @@ class SignerCapabilities {
 
   SignerCapabilities({
     required this.pubKey,
-    required this.clist,
+    this.clist,
   });
 
   factory SignerCapabilities.fromJson(Map<String, dynamic> json) =>
@@ -130,6 +181,17 @@ class SignerCapabilities {
   String toString() {
     return 'SignerCapabilities{pubKey: $pubKey, clist: $clist}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SignerCapabilities &&
+        other.pubKey == pubKey &&
+        listEquals(other.clist, clist);
+  }
+
+  @override
+  int get hashCode =>
+      pubKey.hashCode ^ clist!.fold(0, (i, e) => i + e.hashCode);
 }
 
 @JsonSerializable()
@@ -175,6 +237,26 @@ class CommandMetadata {
   String toString() {
     return 'CommandMetadata{chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, sender: $sender, ttl: $ttl, creationTime: $creationTime}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CommandMetadata &&
+        other.chainId == chainId &&
+        other.gasLimit == gasLimit &&
+        other.gasPrice == gasPrice &&
+        other.sender == sender &&
+        other.ttl == ttl &&
+        other.creationTime == creationTime;
+  }
+
+  @override
+  int get hashCode =>
+      chainId.hashCode ^
+      gasLimit.hashCode ^
+      gasPrice.hashCode ^
+      sender.hashCode ^
+      ttl.hashCode ^
+      creationTime.hashCode;
 }
 
 @JsonSerializable()
@@ -202,6 +284,24 @@ class PactCommandPayload {
   String toString() {
     return 'PactCommandPayload{networkId: $networkId, payload: $payload, signers: $signers, meta: $meta, nonce: $nonce}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PactCommandPayload &&
+        other.networkId == networkId &&
+        other.payload == payload &&
+        listEquals(other.signers, signers) &&
+        other.meta == meta &&
+        other.nonce == nonce;
+  }
+
+  @override
+  int get hashCode =>
+      networkId.hashCode ^
+      payload.hashCode ^
+      signers.fold(0, (i, e) => i + e.hashCode) ^
+      meta.hashCode ^
+      nonce.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -222,6 +322,14 @@ class Signer {
   String toString() {
     return 'Signer{pubKey: $pubKey, sig: $sig}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Signer && other.pubKey == pubKey && other.sig == sig;
+  }
+
+  @override
+  int get hashCode => pubKey.hashCode ^ sig.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -245,6 +353,18 @@ class PactCommand {
   String toString() {
     return 'PactCommand{cmd: $cmd, hash: $hash, sigs: $sigs}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PactCommand &&
+        other.cmd == cmd &&
+        other.hash == hash &&
+        listEquals(other.sigs, sigs);
+  }
+
+  @override
+  int get hashCode =>
+      cmd.hashCode ^ hash.hashCode ^ sigs.fold(0, (i, e) => i + e.hashCode);
 }
 
 /// GENERIC PACT ENDPOINT OBJECTS

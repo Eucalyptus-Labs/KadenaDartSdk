@@ -32,6 +32,17 @@ class QuicksignSigner {
   String toString() {
     return 'QuicksignSigner{pubKey: $pubKey, sig: $sig}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignSigner &&
+          runtimeType == other.runtimeType &&
+          pubKey == other.pubKey &&
+          sig == other.sig;
+
+  @override
+  int get hashCode => pubKey.hashCode ^ sig.hashCode;
 }
 
 @JsonSerializable()
@@ -53,6 +64,17 @@ class CommandSigData {
   String toString() {
     return 'CommandSigData{cmd: $cmd, sigs: $sigs}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CommandSigData &&
+          runtimeType == other.runtimeType &&
+          cmd == other.cmd &&
+          sigs == other.sigs;
+
+  @override
+  int get hashCode => cmd.hashCode ^ sigs.fold(0, (i, e) => i + e.hashCode);
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -80,6 +102,18 @@ class QuicksignOutcome {
   String toString() {
     return 'QuicksignOutcome{result: $result, hash: $hash, msg: $msg}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignOutcome &&
+          runtimeType == other.runtimeType &&
+          result == other.result &&
+          hash == other.hash &&
+          msg == other.msg;
+
+  @override
+  int get hashCode => result.hashCode ^ hash.hashCode ^ msg.hashCode;
 }
 
 class QuicksignResponsePactCommand {
@@ -95,6 +129,17 @@ class QuicksignResponsePactCommand {
   String toString() {
     return 'QuicksignResponsePactCommand{msg: $msg, pactCommand: $pactCommand}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignResponsePactCommand &&
+          runtimeType == other.runtimeType &&
+          msg == other.msg &&
+          pactCommand == other.pactCommand;
+
+  @override
+  int get hashCode => msg.hashCode ^ pactCommand.hashCode;
 }
 
 @JsonSerializable()
@@ -142,6 +187,17 @@ class QuicksignResponse {
   String toString() {
     return 'QuicksignResponse{commandSigData: $commandSigData, outcome: $outcome}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignResponse &&
+          runtimeType == other.runtimeType &&
+          commandSigData == other.commandSigData &&
+          outcome == other.outcome;
+
+  @override
+  int get hashCode => commandSigData.hashCode ^ outcome.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -167,6 +223,17 @@ class QuicksignError {
   String toString() {
     return 'QuicksignError{type: $type, msg: $msg}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignError &&
+          runtimeType == other.runtimeType &&
+          type == other.type &&
+          msg == other.msg;
+
+  @override
+  int get hashCode => type.hashCode ^ msg.hashCode;
 }
 
 @JsonSerializable()
@@ -186,6 +253,16 @@ class QuicksignRequest {
   String toString() {
     return 'QuicksignRequest{commandSigDatas: $commandSigDatas}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignRequest &&
+          runtimeType == other.runtimeType &&
+          commandSigDatas == other.commandSigDatas;
+
+  @override
+  int get hashCode => commandSigDatas.fold(0, (i, e) => i ^ e.hashCode);
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -207,4 +284,17 @@ class QuicksignResult {
   String toString() {
     return 'QuicksignResult{responses: $responses, error: $error}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuicksignResult &&
+          runtimeType == other.runtimeType &&
+          responses == other.responses &&
+          error == other.error;
+
+  @override
+  int get hashCode =>
+      (responses == null ? 0 : responses!.fold(0, (i, e) => i ^ e.hashCode)) ^
+      error.hashCode;
 }

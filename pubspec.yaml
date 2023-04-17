@@ -1,6 +1,6 @@
 name: kadena_dart_sdk
 description: A dart package for interacting with the Kadena blockchain.
-version: 2.2.0
+version: 2.2.1
 repository: https://github.com/Eucalyptus-Labs/kadena-quicksign-dart
 
 environment:
@@ -14,8 +14,8 @@ dependencies:
   hex: ^0.2.0
   pinenacl: ^0.5.1
   json_serializable: ^6.6.0
-  http: ^0.13.5
   json_annotation: ^4.8.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
