@@ -1,3 +1,9 @@
+## 2.3.0
+
+- updated dependencies
+- updated dart sdk to >3.0.0
+
+
 ## 2.2.1
 
 - Added `==` and `hashCode` to all models
