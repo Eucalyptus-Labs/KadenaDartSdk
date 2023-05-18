@@ -27,6 +27,7 @@ void main() {
           keyPair: kp1,
         );
         expect(result.error == null, true);
+        print('Signed TX: $result');
 
         PactCommandPayload pactCommand = PactCommandPayload.fromJson(
           jsonDecode(

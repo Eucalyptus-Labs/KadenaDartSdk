@@ -8,7 +8,6 @@ import 'package:kadena_dart_sdk/signing_api/i_signing_api.dart';
 import 'package:kadena_dart_sdk/models/pact_models.dart';
 import 'package:kadena_dart_sdk/models/quicksign_models.dart';
 
-import '../utils/utils.dart';
 
 class SigningApi extends ISigningApi {
   @override
@@ -108,7 +107,7 @@ ${request.toString()}''',
         signedCmd: signedCmd,
       );
     } catch (e) {
-      print(e);
+      // print(e);
       return SignResult(
         error: SignRequestError(
           msg: 'Invalid signing request',

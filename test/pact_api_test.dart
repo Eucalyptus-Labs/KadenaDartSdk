@@ -1,7 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kadena_dart_sdk/utils/constants.dart';
 
 import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
 

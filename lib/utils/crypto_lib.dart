@@ -25,7 +25,7 @@ class CryptoLib {
     return hash.replaceAll(r'=', '');
   }
 
-  /// Blask hashes the message and returns the raw binary data.
+  /// Blake hashes the message and returns the raw binary data.
   static Uint8List blakeHashToBinary(String message) {
     return Blake2bHash.hash(
       Uint8List.fromList(message.codeUnits),
