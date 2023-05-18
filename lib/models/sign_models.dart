@@ -27,7 +27,7 @@ class DappCapp {
 
   @override
   String toString() {
-    return 'DappCapp{role: $role, description: $description, cap: $cap}';
+    return '{role: $role, description: $description, cap: $cap}';
   }
 
   @override
@@ -101,7 +101,7 @@ class SignRequest {
 
   @override
   String toString() {
-    return 'SignRequest{code or pactCode: ${code ?? pactCode}, data or envData: ${data ?? envData}, sender: $sender, networkId: $networkId, chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, signingPubKey: $signingPubKey, ttl: $ttl, caps: $caps}';
+    return '{code: ${code ?? pactCode}, data: ${data ?? envData}, sender: $sender, networkId: $networkId, chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, signingPubKey: $signingPubKey, ttl: $ttl, caps: $caps}';
   }
 
   @override
@@ -162,7 +162,7 @@ class SignResult {
 
   @override
   String toString() {
-    return 'SignResult{body or signedCmd: ${body ?? signedCmd}, error: $error}';
+    return '{body: $body, signedCmd: $signedCmd}';
   }
 
   @override
@@ -194,7 +194,7 @@ class SignRequestError {
 
   @override
   String toString() {
-    return 'SignRequestError{msg: $msg}';
+    return '{msg: $msg}';
   }
 
   @override

@@ -30,7 +30,7 @@ class QuicksignSigner {
 
   @override
   String toString() {
-    return 'QuicksignSigner{pubKey: $pubKey, sig: $sig}';
+    return '{pubKey: $pubKey, sig: $sig}';
   }
 
   @override
@@ -62,7 +62,7 @@ class CommandSigData {
 
   @override
   String toString() {
-    return 'CommandSigData{cmd: $cmd, sigs: $sigs}';
+    return '{cmd: $cmd, sigs: $sigs}';
   }
 
   @override
@@ -100,7 +100,7 @@ class QuicksignOutcome {
 
   @override
   String toString() {
-    return 'QuicksignOutcome{result: $result, hash: $hash, msg: $msg}';
+    return '{result: $result, hash: $hash, msg: $msg}';
   }
 
   @override
@@ -127,7 +127,7 @@ class QuicksignResponsePactCommand {
 
   @override
   String toString() {
-    return 'QuicksignResponsePactCommand{msg: $msg, pactCommand: $pactCommand}';
+    return '{msg: $msg, pactCommand: $pactCommand}';
   }
 
   @override
@@ -185,7 +185,7 @@ class QuicksignResponse {
 
   @override
   String toString() {
-    return 'QuicksignResponse{commandSigData: $commandSigData, outcome: $outcome}';
+    return '{commandSigData: $commandSigData, outcome: $outcome}';
   }
 
   @override
@@ -221,7 +221,7 @@ class QuicksignError {
 
   @override
   String toString() {
-    return 'QuicksignError{type: $type, msg: $msg}';
+    return '{type: $type, msg: $msg}';
   }
 
   @override
@@ -251,7 +251,7 @@ class QuicksignRequest {
 
   @override
   String toString() {
-    return 'QuicksignRequest{commandSigDatas: $commandSigDatas}';
+    return '{commandSigDatas: $commandSigDatas}';
   }
 
   @override
@@ -282,7 +282,7 @@ class QuicksignResult {
 
   @override
   String toString() {
-    return 'QuicksignResult{responses: $responses, error: $error}';
+    return '{responses: $responses, error: $error}';
   }
 
   @override

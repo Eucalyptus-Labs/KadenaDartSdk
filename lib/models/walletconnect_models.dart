@@ -22,7 +22,7 @@ class AccountRequest {
 
   @override
   String toString() {
-    return 'AccountRequest{account: $account, contracts: $contracts}';
+    return '{account: $account, contracts: $contracts}';
   }
 
   @override
@@ -53,7 +53,7 @@ class GetAccountsRequest {
 
   @override
   String toString() {
-    return 'GetAccountsRequest{accounts: $accounts}';
+    return '{accounts: $accounts}';
   }
 
   @override
@@ -94,7 +94,7 @@ class KadenaAccount {
 
   @override
   String toString() {
-    return 'KadenaAccount{name: $name, contract: $contract, chains: $chains}';
+    return '{name: $name, contract: $contract, chains: $chains}';
   }
 
   @override
@@ -137,7 +137,7 @@ class AccountResponse {
 
   @override
   String toString() {
-    return 'AccountResponse{account: $account, publicKey: $publicKey, kadenaAccounts: $kadenaAccounts}';
+    return '{account: $account, publicKey: $publicKey, kadenaAccounts: $kadenaAccounts}';
   }
 
   @override
@@ -170,7 +170,7 @@ class GetAccountsResponse {
 
   @override
   String toString() {
-    return 'GetAccountsResponse{accounts: $accounts}';
+    return '{accounts: $accounts}';
   }
 
   @override

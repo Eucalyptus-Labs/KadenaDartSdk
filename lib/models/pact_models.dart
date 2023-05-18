@@ -15,7 +15,7 @@ class KadenaSignKeyPair {
 
   @override
   String toString() {
-    return 'KadenaSignKeyPair{privateKey: $privateKey, publicKey: $publicKey}';
+    return '{privateKey: $privateKey, publicKey: $publicKey}';
   }
 }
 
@@ -36,7 +36,7 @@ class ExecMessage {
 
   @override
   String toString() {
-    return 'ExecMessage{data: $data, code: $code}';
+    return '{data: $data, code: $code}';
   }
 
   @override
@@ -76,7 +76,7 @@ class ContinuationMessage {
 
   @override
   String toString() {
-    return 'ContinuationMessage{pactId: $pactId, step: $step, rollback: $rollback, data: $data, proof: $proof}';
+    return '{pactId: $pactId, step: $step, rollback: $rollback, data: $data, proof: $proof}';
   }
 
   @override
@@ -119,7 +119,7 @@ class CommandPayload {
 
   @override
   String toString() {
-    return 'CommandPayload{exec: $exec, cont: $cont}';
+    return '{exec: $exec, cont: $cont}';
   }
 
   @override
@@ -148,7 +148,7 @@ class Capability {
 
   @override
   String toString() {
-    return 'Capability{name: $name, args: $args}';
+    return '{name: $name, args: $args}';
   }
 
   @override
@@ -179,7 +179,7 @@ class SignerCapabilities {
 
   @override
   String toString() {
-    return 'SignerCapabilities{pubKey: $pubKey, clist: $clist}';
+    return '{pubKey: $pubKey, clist: $clist}';
   }
 
   @override
@@ -235,7 +235,7 @@ class CommandMetadata {
 
   @override
   String toString() {
-    return 'CommandMetadata{chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, sender: $sender, ttl: $ttl, creationTime: $creationTime}';
+    return '{chainId: $chainId, gasLimit: $gasLimit, gasPrice: $gasPrice, sender: $sender, ttl: $ttl, creationTime: $creationTime}';
   }
 
   @override
@@ -282,7 +282,7 @@ class PactCommandPayload {
 
   @override
   String toString() {
-    return 'PactCommandPayload{networkId: $networkId, payload: $payload, signers: $signers, meta: $meta, nonce: $nonce}';
+    return '{networkId: $networkId, payload: $payload, signers: $signers, meta: $meta, nonce: $nonce}';
   }
 
   @override
@@ -320,7 +320,7 @@ class Signer {
 
   @override
   String toString() {
-    return 'Signer{pubKey: $pubKey, sig: $sig}';
+    return '{pubKey: $pubKey, sig: $sig}';
   }
 
   @override
@@ -351,7 +351,7 @@ class PactCommand {
 
   @override
   String toString() {
-    return 'PactCommand{cmd: $cmd, hash: $hash, sigs: $sigs}';
+    return '{cmd: $cmd, hash: $hash, sigs: $sigs}';
   }
 
   @override
@@ -397,7 +397,7 @@ class PactResultMetadata {
 
   @override
   String toString() {
-    return 'PactResultMetadata{publicMeta: $publicMeta, blockTime: $blockTime, prevBlockHash: $prevBlockHash, blockHeight: $blockHeight}';
+    return '{publicMeta: $publicMeta, blockTime: $blockTime, prevBlockHash: $prevBlockHash, blockHeight: $blockHeight}';
   }
 }
 
@@ -428,7 +428,7 @@ class PactResponse {
 
   @override
   String toString() {
-    return 'PactResponse{gas: $gas, result: $result, reqKey: $reqKey, logs: $logs, metadata: $metadata, continuation: $continuation, txId: $txId}';
+    return '{gas: $gas, result: $result, reqKey: $reqKey, logs: $logs, metadata: $metadata, continuation: $continuation, txId: $txId}';
   }
 }
 
@@ -453,7 +453,7 @@ class PactEvent {
 
   @override
   String toString() {
-    return 'PactEvent{name: $name, params: $params, module: $module, moduleHash: $moduleHash}';
+    return '{name: $name, params: $params, module: $module, moduleHash: $moduleHash}';
   }
 }
 
@@ -476,7 +476,7 @@ class PactResult<T> {
 
   @override
   String toString() {
-    return 'PactResult{status: $status, data: $data, error: $error}';
+    return '{status: $status, data: $data, error: $error}';
   }
 }
 
@@ -495,7 +495,7 @@ class PactApiError {
 
   @override
   String toString() {
-    return 'PactError{error: $error}';
+    return '{error: $error}';
   }
 }
 
@@ -516,7 +516,7 @@ class PactSendRequest {
 
   @override
   String toString() {
-    return 'PactSendRequest{cmds: $cmds}';
+    return '{cmds: $cmds}';
   }
 }
 
@@ -535,7 +535,7 @@ class PactSendResponse {
 
   @override
   String toString() {
-    return 'PactSendResponse{requestKeys: $requestKeys}';
+    return '{requestKeys: $requestKeys}';
   }
 }
 
@@ -556,6 +556,6 @@ class PactListenRequest {
 
   @override
   String toString() {
-    return 'PactListenRequest{listen: $listen}';
+    return '{listen: $listen}';
   }
 }
