@@ -8,7 +8,6 @@ import 'package:kadena_dart_sdk/signing_api/i_signing_api.dart';
 import 'package:kadena_dart_sdk/models/pact_models.dart';
 import 'package:kadena_dart_sdk/models/quicksign_models.dart';
 
-
 class SigningApi extends ISigningApi {
   @override
   SignRequest parseSignRequest({
