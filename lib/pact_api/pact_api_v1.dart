@@ -14,9 +14,7 @@ class PactApiV1 extends IPactApiV1 {
     bool queryNetworkId = true,
   }) async {
     // Remove trailing slash if present
-    _nodeUrl = nodeUrl.endsWith('/')
-        ? nodeUrl.substring(0, nodeUrl.length - 1)
-        : nodeUrl;
+    _nodeUrl = nodeUrl.endsWith('/') ? nodeUrl.substring(0, nodeUrl.length - 1) : nodeUrl;
 
     if (queryNetworkId) {
       try {

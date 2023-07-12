@@ -15,8 +15,7 @@ class AccountRequest {
     this.contracts,
   });
 
-  factory AccountRequest.fromJson(Map<String, dynamic> json) =>
-      _$AccountRequestFromJson(json);
+  factory AccountRequest.fromJson(Map<String, dynamic> json) => _$AccountRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccountRequestToJson(this);
 
@@ -46,8 +45,7 @@ class GetAccountsRequest {
     required this.accounts,
   });
 
-  factory GetAccountsRequest.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountsRequestFromJson(json);
+  factory GetAccountsRequest.fromJson(Map<String, dynamic> json) => _$GetAccountsRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$GetAccountsRequestToJson(this);
 
@@ -59,9 +57,7 @@ class GetAccountsRequest {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GetAccountsRequest &&
-          runtimeType == other.runtimeType &&
-          accounts == other.accounts;
+      other is GetAccountsRequest && runtimeType == other.runtimeType && accounts == other.accounts;
 
   @override
   int get hashCode => accounts.hashCode;
@@ -87,8 +83,7 @@ class KadenaAccount {
     required this.chains,
   });
 
-  factory KadenaAccount.fromJson(Map<String, dynamic> json) =>
-      _$KadenaAccountFromJson(json);
+  factory KadenaAccount.fromJson(Map<String, dynamic> json) => _$KadenaAccountFromJson(json);
 
   Map<String, dynamic> toJson() => _$KadenaAccountToJson(this);
 
@@ -130,8 +125,7 @@ class AccountResponse {
     required this.kadenaAccounts,
   });
 
-  factory AccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$AccountResponseFromJson(json);
+  factory AccountResponse.fromJson(Map<String, dynamic> json) => _$AccountResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccountResponseToJson(this);
 
@@ -150,8 +144,7 @@ class AccountResponse {
           kadenaAccounts == other.kadenaAccounts;
 
   @override
-  int get hashCode =>
-      account.hashCode ^ publicKey.hashCode ^ kadenaAccounts.hashCode;
+  int get hashCode => account.hashCode ^ publicKey.hashCode ^ kadenaAccounts.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -163,8 +156,7 @@ class GetAccountsResponse {
     required this.accounts,
   });
 
-  factory GetAccountsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountsResponseFromJson(json);
+  factory GetAccountsResponse.fromJson(Map<String, dynamic> json) => _$GetAccountsResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$GetAccountsResponseToJson(this);
 
@@ -176,9 +168,7 @@ class GetAccountsResponse {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GetAccountsResponse &&
-          runtimeType == other.runtimeType &&
-          accounts == other.accounts;
+      other is GetAccountsResponse && runtimeType == other.runtimeType && accounts == other.accounts;
 
   @override
   int get hashCode => accounts.hashCode;

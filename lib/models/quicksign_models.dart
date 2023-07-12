@@ -23,8 +23,7 @@ class QuicksignSigner {
     );
   }
 
-  factory QuicksignSigner.fromJson(Map<String, dynamic> json) =>
-      _$QuicksignSignerFromJson(json);
+  factory QuicksignSigner.fromJson(Map<String, dynamic> json) => _$QuicksignSignerFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignSignerToJson(this);
 
@@ -36,10 +35,7 @@ class QuicksignSigner {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is QuicksignSigner &&
-          runtimeType == other.runtimeType &&
-          pubKey == other.pubKey &&
-          sig == other.sig;
+      other is QuicksignSigner && runtimeType == other.runtimeType && pubKey == other.pubKey && sig == other.sig;
 
   @override
   int get hashCode => pubKey.hashCode ^ sig.hashCode;
@@ -55,8 +51,7 @@ class CommandSigData {
     required this.sigs,
   });
 
-  factory CommandSigData.fromJson(Map<String, dynamic> json) =>
-      _$CommandSigDataFromJson(json);
+  factory CommandSigData.fromJson(Map<String, dynamic> json) => _$CommandSigDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommandSigDataToJson(this);
 
@@ -68,10 +63,7 @@ class CommandSigData {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CommandSigData &&
-          runtimeType == other.runtimeType &&
-          cmd == other.cmd &&
-          sigs == other.sigs;
+      other is CommandSigData && runtimeType == other.runtimeType && cmd == other.cmd && sigs == other.sigs;
 
   @override
   int get hashCode => cmd.hashCode ^ sigs.fold(0, (i, e) => i + e.hashCode);
@@ -93,8 +85,7 @@ class QuicksignOutcome {
     this.msg,
   });
 
-  factory QuicksignOutcome.fromJson(Map<String, dynamic> json) =>
-      _$QuicksignOutcomeFromJson(json);
+  factory QuicksignOutcome.fromJson(Map<String, dynamic> json) => _$QuicksignOutcomeFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignOutcomeToJson(this);
 
@@ -178,8 +169,7 @@ class QuicksignResponse {
     );
   }
 
-  factory QuicksignResponse.fromJson(Map<String, dynamic> json) =>
-      _$QuicksignResponseFromJson(json);
+  factory QuicksignResponse.fromJson(Map<String, dynamic> json) => _$QuicksignResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignResponseToJson(this);
 
@@ -214,8 +204,7 @@ class QuicksignError {
     this.msg,
   });
 
-  factory QuicksignError.fromJson(Map<String, dynamic> json) =>
-      _$QuicksignErrorFromJson(json);
+  factory QuicksignError.fromJson(Map<String, dynamic> json) => _$QuicksignErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignErrorToJson(this);
 
@@ -227,10 +216,7 @@ class QuicksignError {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is QuicksignError &&
-          runtimeType == other.runtimeType &&
-          type == other.type &&
-          msg == other.msg;
+      other is QuicksignError && runtimeType == other.runtimeType && type == other.type && msg == other.msg;
 
   @override
   int get hashCode => type.hashCode ^ msg.hashCode;
@@ -244,8 +230,7 @@ class QuicksignRequest {
     required this.commandSigDatas,
   });
 
-  factory QuicksignRequest.fromJson(Map<String, dynamic> json) =>
-      _$QuicksignRequestFromJson(json);
+  factory QuicksignRequest.fromJson(Map<String, dynamic> json) => _$QuicksignRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignRequestToJson(this);
 
@@ -257,9 +242,7 @@ class QuicksignRequest {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is QuicksignRequest &&
-          runtimeType == other.runtimeType &&
-          commandSigDatas == other.commandSigDatas;
+      other is QuicksignRequest && runtimeType == other.runtimeType && commandSigDatas == other.commandSigDatas;
 
   @override
   int get hashCode => commandSigDatas.fold(0, (i, e) => i ^ e.hashCode);
@@ -275,8 +258,7 @@ class QuicksignResult {
     this.error,
   });
 
-  factory QuicksignResult.fromJson(Map<String, dynamic> json) =>
-      _$QuicksignResultFromJson(json);
+  factory QuicksignResult.fromJson(Map<String, dynamic> json) => _$QuicksignResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuicksignResultToJson(this);
 
@@ -294,7 +276,5 @@ class QuicksignResult {
           error == other.error;
 
   @override
-  int get hashCode =>
-      (responses == null ? 0 : responses!.fold(0, (i, e) => i ^ e.hashCode)) ^
-      error.hashCode;
+  int get hashCode => (responses == null ? 0 : responses!.fold(0, (i, e) => i ^ e.hashCode)) ^ error.hashCode;
 }

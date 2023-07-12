@@ -11,14 +11,12 @@ ExecMessage _$ExecMessageFromJson(Map<String, dynamic> json) => ExecMessage(
       code: json['code'] as String,
     );
 
-Map<String, dynamic> _$ExecMessageToJson(ExecMessage instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ExecMessageToJson(ExecMessage instance) => <String, dynamic>{
       'data': instance.data,
       'code': instance.code,
     };
 
-ContinuationMessage _$ContinuationMessageFromJson(Map<String, dynamic> json) =>
-    ContinuationMessage(
+ContinuationMessage _$ContinuationMessageFromJson(Map<String, dynamic> json) => ContinuationMessage(
       pactId: json['pactId'] as String,
       step: json['step'] as int,
       rollback: json['rollback'] as bool,
@@ -26,9 +24,7 @@ ContinuationMessage _$ContinuationMessageFromJson(Map<String, dynamic> json) =>
       proof: json['proof'] as String,
     );
 
-Map<String, dynamic> _$ContinuationMessageToJson(
-        ContinuationMessage instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ContinuationMessageToJson(ContinuationMessage instance) => <String, dynamic>{
       'pactId': instance.pactId,
       'step': instance.step,
       'rollback': instance.rollback,
@@ -36,14 +32,9 @@ Map<String, dynamic> _$ContinuationMessageToJson(
       'proof': instance.proof,
     };
 
-CommandPayload _$CommandPayloadFromJson(Map<String, dynamic> json) =>
-    CommandPayload(
-      exec: json['exec'] == null
-          ? null
-          : ExecMessage.fromJson(json['exec'] as Map<String, dynamic>),
-      cont: json['cont'] == null
-          ? null
-          : ContinuationMessage.fromJson(json['cont'] as Map<String, dynamic>),
+CommandPayload _$CommandPayloadFromJson(Map<String, dynamic> json) => CommandPayload(
+      exec: json['exec'] == null ? null : ExecMessage.fromJson(json['exec'] as Map<String, dynamic>),
+      cont: json['cont'] == null ? null : ContinuationMessage.fromJson(json['cont'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CommandPayloadToJson(CommandPayload instance) {
@@ -65,18 +56,14 @@ Capability _$CapabilityFromJson(Map<String, dynamic> json) => Capability(
       args: json['args'] as List<dynamic>? ?? const [],
     );
 
-Map<String, dynamic> _$CapabilityToJson(Capability instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CapabilityToJson(Capability instance) => <String, dynamic>{
       'name': instance.name,
       'args': instance.args,
     };
 
-SignerCapabilities _$SignerCapabilitiesFromJson(Map<String, dynamic> json) =>
-    SignerCapabilities(
+SignerCapabilities _$SignerCapabilitiesFromJson(Map<String, dynamic> json) => SignerCapabilities(
       pubKey: json['pubKey'] as String,
-      clist: (json['clist'] as List<dynamic>?)
-          ?.map((e) => Capability.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      clist: (json['clist'] as List<dynamic>?)?.map((e) => Capability.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
 Map<String, dynamic> _$SignerCapabilitiesToJson(SignerCapabilities instance) {
@@ -94,8 +81,7 @@ Map<String, dynamic> _$SignerCapabilitiesToJson(SignerCapabilities instance) {
   return val;
 }
 
-CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) =>
-    CommandMetadata(
+CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) => CommandMetadata(
       chainId: json['chainId'] as String,
       sender: json['sender'] as String,
       gasLimit: json['gasLimit'] as int?,
@@ -104,8 +90,7 @@ CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) =>
       creationTime: json['creationTime'] as int?,
     );
 
-Map<String, dynamic> _$CommandMetadataToJson(CommandMetadata instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CommandMetadataToJson(CommandMetadata instance) => <String, dynamic>{
       'chainId': instance.chainId,
       'gasLimit': instance.gasLimit,
       'gasPrice': instance.gasPrice,
@@ -114,8 +99,7 @@ Map<String, dynamic> _$CommandMetadataToJson(CommandMetadata instance) =>
       'creationTime': instance.creationTime,
     };
 
-PactCommandPayload _$PactCommandPayloadFromJson(Map<String, dynamic> json) =>
-    PactCommandPayload(
+PactCommandPayload _$PactCommandPayloadFromJson(Map<String, dynamic> json) => PactCommandPayload(
       networkId: json['networkId'] as String,
       payload: CommandPayload.fromJson(json['payload'] as Map<String, dynamic>),
       signers: (json['signers'] as List<dynamic>)
@@ -125,8 +109,7 @@ PactCommandPayload _$PactCommandPayloadFromJson(Map<String, dynamic> json) =>
       nonce: json['nonce'] as String?,
     );
 
-Map<String, dynamic> _$PactCommandPayloadToJson(PactCommandPayload instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactCommandPayloadToJson(PactCommandPayload instance) => <String, dynamic>{
       'networkId': instance.networkId,
       'payload': instance.payload,
       'signers': instance.signers,
@@ -156,29 +139,23 @@ Map<String, dynamic> _$SignerToJson(Signer instance) {
 PactCommand _$PactCommandFromJson(Map<String, dynamic> json) => PactCommand(
       cmd: json['cmd'] as String,
       hash: json['hash'] as String,
-      sigs: (json['sigs'] as List<dynamic>)
-          .map((e) => Signer.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      sigs: (json['sigs'] as List<dynamic>).map((e) => Signer.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$PactCommandToJson(PactCommand instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactCommandToJson(PactCommand instance) => <String, dynamic>{
       'cmd': instance.cmd,
       'hash': instance.hash,
       'sigs': instance.sigs,
     };
 
-PactResultMetadata _$PactResultMetadataFromJson(Map<String, dynamic> json) =>
-    PactResultMetadata(
-      publicMeta:
-          CommandMetadata.fromJson(json['publicMeta'] as Map<String, dynamic>),
+PactResultMetadata _$PactResultMetadataFromJson(Map<String, dynamic> json) => PactResultMetadata(
+      publicMeta: CommandMetadata.fromJson(json['publicMeta'] as Map<String, dynamic>),
       blockTime: json['blockTime'] as int,
       prevBlockHash: json['prevBlockHash'] as String,
       blockHeight: json['blockHeight'] as int,
     );
 
-Map<String, dynamic> _$PactResultMetadataToJson(PactResultMetadata instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactResultMetadataToJson(PactResultMetadata instance) => <String, dynamic>{
       'publicMeta': instance.publicMeta,
       'blockTime': instance.blockTime,
       'prevBlockHash': instance.prevBlockHash,
@@ -187,8 +164,7 @@ Map<String, dynamic> _$PactResultMetadataToJson(PactResultMetadata instance) =>
 
 PactResponse _$PactResponseFromJson(Map<String, dynamic> json) => PactResponse(
       gas: json['gas'] as int,
-      result:
-          PactResult<dynamic>.fromJson(json['result'] as Map<String, dynamic>),
+      result: PactResult<dynamic>.fromJson(json['result'] as Map<String, dynamic>),
       reqKey: json['reqKey'] as String,
       logs: json['logs'] as String,
       metadata: json['metadata'] as String?,
@@ -275,41 +251,30 @@ PactApiError _$PactApiErrorFromJson(Map<String, dynamic> json) => PactApiError(
       error: json['error'] as String,
     );
 
-Map<String, dynamic> _$PactApiErrorToJson(PactApiError instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactApiErrorToJson(PactApiError instance) => <String, dynamic>{
       'error': instance.error,
     };
 
-PactSendRequest _$PactSendRequestFromJson(Map<String, dynamic> json) =>
-    PactSendRequest(
-      cmds: (json['cmds'] as List<dynamic>)
-          .map((e) => PactCommand.fromJson(e as Map<String, dynamic>))
-          .toList(),
+PactSendRequest _$PactSendRequestFromJson(Map<String, dynamic> json) => PactSendRequest(
+      cmds: (json['cmds'] as List<dynamic>).map((e) => PactCommand.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$PactSendRequestToJson(PactSendRequest instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactSendRequestToJson(PactSendRequest instance) => <String, dynamic>{
       'cmds': instance.cmds,
     };
 
-PactSendResponse _$PactSendResponseFromJson(Map<String, dynamic> json) =>
-    PactSendResponse(
-      requestKeys: (json['requestKeys'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+PactSendResponse _$PactSendResponseFromJson(Map<String, dynamic> json) => PactSendResponse(
+      requestKeys: (json['requestKeys'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$PactSendResponseToJson(PactSendResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactSendResponseToJson(PactSendResponse instance) => <String, dynamic>{
       'requestKeys': instance.requestKeys,
     };
 
-PactListenRequest _$PactListenRequestFromJson(Map<String, dynamic> json) =>
-    PactListenRequest(
+PactListenRequest _$PactListenRequestFromJson(Map<String, dynamic> json) => PactListenRequest(
       listen: json['listen'] as String,
     );
 
-Map<String, dynamic> _$PactListenRequestToJson(PactListenRequest instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PactListenRequestToJson(PactListenRequest instance) => <String, dynamic>{
       'listen': instance.listen,
     };

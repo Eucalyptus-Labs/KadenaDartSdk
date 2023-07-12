@@ -29,8 +29,7 @@ class ExecMessage {
     this.data = const {},
   });
 
-  factory ExecMessage.fromJson(Map<String, dynamic> json) =>
-      _$ExecMessageFromJson(json);
+  factory ExecMessage.fromJson(Map<String, dynamic> json) => _$ExecMessageFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExecMessageToJson(this);
 
@@ -41,16 +40,12 @@ class ExecMessage {
 
   @override
   bool operator ==(Object other) {
-    return other is ExecMessage &&
-        other.code == code &&
-        mapEquals(other.data, data);
+    return other is ExecMessage && other.code == code && mapEquals(other.data, data);
   }
 
   @override
   int get hashCode =>
-      code.hashCode ^
-      data.keys.fold(0, (i, e) => i + e.hashCode) ^
-      data.values.fold(0, (i, e) => i + e.hashCode);
+      code.hashCode ^ data.keys.fold(0, (i, e) => i + e.hashCode) ^ data.values.fold(0, (i, e) => i + e.hashCode);
 }
 
 @JsonSerializable()
@@ -69,8 +64,7 @@ class ContinuationMessage {
     required this.proof,
   });
 
-  factory ContinuationMessage.fromJson(Map<String, dynamic> json) =>
-      _$ContinuationMessageFromJson(json);
+  factory ContinuationMessage.fromJson(Map<String, dynamic> json) => _$ContinuationMessageFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContinuationMessageToJson(this);
 
@@ -112,8 +106,7 @@ class CommandPayload {
     this.cont,
   });
 
-  factory CommandPayload.fromJson(Map<String, dynamic> json) =>
-      _$CommandPayloadFromJson(json);
+  factory CommandPayload.fromJson(Map<String, dynamic> json) => _$CommandPayloadFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommandPayloadToJson(this);
 
@@ -141,8 +134,7 @@ class Capability {
     this.args = const [],
   });
 
-  factory Capability.fromJson(Map<String, dynamic> json) =>
-      _$CapabilityFromJson(json);
+  factory Capability.fromJson(Map<String, dynamic> json) => _$CapabilityFromJson(json);
 
   Map<String, dynamic> toJson() => _$CapabilityToJson(this);
 
@@ -153,9 +145,7 @@ class Capability {
 
   @override
   bool operator ==(Object other) {
-    return other is Capability &&
-        other.name == name &&
-        listEquals(other.args, args);
+    return other is Capability && other.name == name && listEquals(other.args, args);
   }
 
   @override
@@ -172,8 +162,7 @@ class SignerCapabilities {
     this.clist,
   });
 
-  factory SignerCapabilities.fromJson(Map<String, dynamic> json) =>
-      _$SignerCapabilitiesFromJson(json);
+  factory SignerCapabilities.fromJson(Map<String, dynamic> json) => _$SignerCapabilitiesFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignerCapabilitiesToJson(this);
 
@@ -184,14 +173,11 @@ class SignerCapabilities {
 
   @override
   bool operator ==(Object other) {
-    return other is SignerCapabilities &&
-        other.pubKey == pubKey &&
-        listEquals(other.clist, clist);
+    return other is SignerCapabilities && other.pubKey == pubKey && listEquals(other.clist, clist);
   }
 
   @override
-  int get hashCode =>
-      pubKey.hashCode ^ clist!.fold(0, (i, e) => i + e.hashCode);
+  int get hashCode => pubKey.hashCode ^ clist!.fold(0, (i, e) => i + e.hashCode);
 }
 
 @JsonSerializable()
@@ -228,8 +214,7 @@ class CommandMetadata {
         ttl = ttl ?? 600,
         creationTime = creationTime ?? Utils.getCreationTime();
 
-  factory CommandMetadata.fromJson(Map<String, dynamic> json) =>
-      _$CommandMetadataFromJson(json);
+  factory CommandMetadata.fromJson(Map<String, dynamic> json) => _$CommandMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommandMetadataToJson(this);
 
@@ -251,12 +236,7 @@ class CommandMetadata {
 
   @override
   int get hashCode =>
-      chainId.hashCode ^
-      gasLimit.hashCode ^
-      gasPrice.hashCode ^
-      sender.hashCode ^
-      ttl.hashCode ^
-      creationTime.hashCode;
+      chainId.hashCode ^ gasLimit.hashCode ^ gasPrice.hashCode ^ sender.hashCode ^ ttl.hashCode ^ creationTime.hashCode;
 }
 
 @JsonSerializable()
@@ -275,8 +255,7 @@ class PactCommandPayload {
     String? nonce,
   }) : nonce = nonce ?? DateTime.now().toIso8601String();
 
-  factory PactCommandPayload.fromJson(Map<String, dynamic> json) =>
-      _$PactCommandPayloadFromJson(json);
+  factory PactCommandPayload.fromJson(Map<String, dynamic> json) => _$PactCommandPayloadFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactCommandPayloadToJson(this);
 
@@ -344,8 +323,7 @@ class PactCommand {
     required this.sigs,
   });
 
-  factory PactCommand.fromJson(Map<String, dynamic> json) =>
-      _$PactCommandFromJson(json);
+  factory PactCommand.fromJson(Map<String, dynamic> json) => _$PactCommandFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactCommandToJson(this);
 
@@ -356,15 +334,11 @@ class PactCommand {
 
   @override
   bool operator ==(Object other) {
-    return other is PactCommand &&
-        other.cmd == cmd &&
-        other.hash == hash &&
-        listEquals(other.sigs, sigs);
+    return other is PactCommand && other.cmd == cmd && other.hash == hash && listEquals(other.sigs, sigs);
   }
 
   @override
-  int get hashCode =>
-      cmd.hashCode ^ hash.hashCode ^ sigs.fold(0, (i, e) => i + e.hashCode);
+  int get hashCode => cmd.hashCode ^ hash.hashCode ^ sigs.fold(0, (i, e) => i + e.hashCode);
 }
 
 /// GENERIC PACT ENDPOINT OBJECTS
@@ -390,8 +364,7 @@ class PactResultMetadata {
     required this.blockHeight,
   });
 
-  factory PactResultMetadata.fromJson(Map<String, dynamic> json) =>
-      _$PactResultMetadataFromJson(json);
+  factory PactResultMetadata.fromJson(Map<String, dynamic> json) => _$PactResultMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactResultMetadataToJson(this);
 
@@ -421,8 +394,7 @@ class PactResponse {
     required this.txId,
   });
 
-  factory PactResponse.fromJson(Map<String, dynamic> json) =>
-      _$PactResponseFromJson(json);
+  factory PactResponse.fromJson(Map<String, dynamic> json) => _$PactResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactResponseToJson(this);
 
@@ -446,8 +418,7 @@ class PactEvent {
     required this.moduleHash,
   });
 
-  factory PactEvent.fromJson(Map<String, dynamic> json) =>
-      _$PactEventFromJson(json);
+  factory PactEvent.fromJson(Map<String, dynamic> json) => _$PactEventFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactEventToJson(this);
 
@@ -469,8 +440,7 @@ class PactResult<T> {
     this.error,
   });
 
-  factory PactResult.fromJson(Map<String, dynamic> json) =>
-      _$PactResultFromJson(json, (object) => object as T);
+  factory PactResult.fromJson(Map<String, dynamic> json) => _$PactResultFromJson(json, (object) => object as T);
 
   Map<String, dynamic> toJson() => _$PactResultToJson(this, (t) => t);
 
@@ -488,8 +458,7 @@ class PactApiError {
     required this.error,
   });
 
-  factory PactApiError.fromJson(Map<String, dynamic> json) =>
-      _$PactApiErrorFromJson(json);
+  factory PactApiError.fromJson(Map<String, dynamic> json) => _$PactApiErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactApiErrorToJson(this);
 
@@ -509,8 +478,7 @@ class PactSendRequest {
     required this.cmds,
   });
 
-  factory PactSendRequest.fromJson(Map<String, dynamic> json) =>
-      _$PactSendRequestFromJson(json);
+  factory PactSendRequest.fromJson(Map<String, dynamic> json) => _$PactSendRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactSendRequestToJson(this);
 
@@ -528,8 +496,7 @@ class PactSendResponse {
     required this.requestKeys,
   });
 
-  factory PactSendResponse.fromJson(Map<String, dynamic> json) =>
-      _$PactSendResponseFromJson(json);
+  factory PactSendResponse.fromJson(Map<String, dynamic> json) => _$PactSendResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactSendResponseToJson(this);
 
@@ -549,8 +516,7 @@ class PactListenRequest {
     required this.listen,
   });
 
-  factory PactListenRequest.fromJson(Map<String, dynamic> json) =>
-      _$PactListenRequestFromJson(json);
+  factory PactListenRequest.fromJson(Map<String, dynamic> json) => _$PactListenRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$PactListenRequestToJson(this);
 

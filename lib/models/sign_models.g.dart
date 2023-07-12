@@ -28,9 +28,7 @@ SignRequest _$SignRequestFromJson(Map<String, dynamic> json) => SignRequest(
       gasPrice: (json['gasPrice'] as num?)?.toDouble(),
       signingPubKey: json['signingPubKey'] as String?,
       ttl: json['ttl'] as int?,
-      caps: (json['caps'] as List<dynamic>?)
-          ?.map((e) => DappCapp.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      caps: (json['caps'] as List<dynamic>?)?.map((e) => DappCapp.fromJson(e as Map<String, dynamic>)).toList(),
     )
       ..pactCode = json['pactCode'] as String?
       ..envData = json['envData'] as Map<String, dynamic>?;
@@ -60,15 +58,9 @@ Map<String, dynamic> _$SignRequestToJson(SignRequest instance) {
 }
 
 SignResult _$SignResultFromJson(Map<String, dynamic> json) => SignResult(
-      body: json['body'] == null
-          ? null
-          : PactCommand.fromJson(json['body'] as Map<String, dynamic>),
-      signedCmd: json['signedCmd'] == null
-          ? null
-          : PactCommand.fromJson(json['signedCmd'] as Map<String, dynamic>),
-      error: json['error'] == null
-          ? null
-          : SignRequestError.fromJson(json['error'] as Map<String, dynamic>),
+      body: json['body'] == null ? null : PactCommand.fromJson(json['body'] as Map<String, dynamic>),
+      signedCmd: json['signedCmd'] == null ? null : PactCommand.fromJson(json['signedCmd'] as Map<String, dynamic>),
+      error: json['error'] == null ? null : SignRequestError.fromJson(json['error'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SignResultToJson(SignResult instance) {
@@ -86,12 +78,10 @@ Map<String, dynamic> _$SignResultToJson(SignResult instance) {
   return val;
 }
 
-SignRequestError _$SignRequestErrorFromJson(Map<String, dynamic> json) =>
-    SignRequestError(
+SignRequestError _$SignRequestErrorFromJson(Map<String, dynamic> json) => SignRequestError(
       msg: json['msg'] as String,
     );
 
-Map<String, dynamic> _$SignRequestErrorToJson(SignRequestError instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SignRequestErrorToJson(SignRequestError instance) => <String, dynamic>{
       'msg': instance.msg,
     };

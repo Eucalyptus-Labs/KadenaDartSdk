@@ -8,7 +8,6 @@ import 'package:kadena_dart_sdk/signing_api/i_signing_api.dart';
 import 'package:kadena_dart_sdk/models/pact_models.dart';
 import 'package:kadena_dart_sdk/models/quicksign_models.dart';
 
-
 class SigningApi extends ISigningApi {
   @override
   SignRequest parseSignRequest({
@@ -56,9 +55,7 @@ ${request.toString()}''',
       signers: [
         SignerCapabilities(
           pubKey: request.signingPubKey ?? signingPubKey,
-          clist: request.caps == null || request.caps!.isEmpty
-              ? null
-              : request.caps?.map((e) => e.cap).toList(),
+          clist: request.caps == null || request.caps!.isEmpty ? null : request.caps?.map((e) => e.cap).toList(),
         ),
       ],
       meta: CommandMetadata(
