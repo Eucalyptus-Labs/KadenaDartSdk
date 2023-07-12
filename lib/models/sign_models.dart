@@ -20,7 +20,8 @@ class DappCapp {
     required this.cap,
   });
 
-  factory DappCapp.fromJson(Map<String, dynamic> json) => _$DappCappFromJson(json);
+  factory DappCapp.fromJson(Map<String, dynamic> json) =>
+      _$DappCappFromJson(json);
 
   Map<String, dynamic> toJson() => _$DappCappToJson(this);
 
@@ -93,7 +94,8 @@ class SignRequest {
   })  : pactCode = code,
         envData = data;
 
-  factory SignRequest.fromJson(Map<String, dynamic> json) => _$SignRequestFromJson(json);
+  factory SignRequest.fromJson(Map<String, dynamic> json) =>
+      _$SignRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignRequestToJson(this);
 
@@ -153,7 +155,8 @@ class SignResult {
     this.error,
   });
 
-  factory SignResult.fromJson(Map<String, dynamic> json) => _$SignResultFromJson(json);
+  factory SignResult.fromJson(Map<String, dynamic> json) =>
+      _$SignResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignResultToJson(this);
 
@@ -184,7 +187,8 @@ class SignRequestError {
     required this.msg,
   });
 
-  factory SignRequestError.fromJson(Map<String, dynamic> json) => _$SignRequestErrorFromJson(json);
+  factory SignRequestError.fromJson(Map<String, dynamic> json) =>
+      _$SignRequestErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignRequestErrorToJson(this);
 
@@ -195,7 +199,10 @@ class SignRequestError {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is SignRequestError && runtimeType == other.runtimeType && msg == other.msg;
+      identical(this, other) ||
+      other is SignRequestError &&
+          runtimeType == other.runtimeType &&
+          msg == other.msg;
 
   @override
   int get hashCode => msg.hashCode;
