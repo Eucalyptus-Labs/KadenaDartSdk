@@ -4,10 +4,6 @@ description: Installs dependencies
 runs:
   using: composite
   steps:
-    - name: Flutter upgrade
-      shell: bash
-      run: flutter upgrade
-
     # General Tests
     - name: Install packages
       shell: bash
