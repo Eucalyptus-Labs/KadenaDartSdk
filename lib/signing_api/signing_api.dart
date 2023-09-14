@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:kadena_dart_sdk/models/sign_models.dart';
 import 'package:kadena_dart_sdk/utils/constants.dart';
 import 'package:kadena_dart_sdk/utils/crypto_lib.dart';
@@ -55,9 +55,7 @@ ${request.toString()}''',
       signers: [
         SignerCapabilities(
           pubKey: request.signingPubKey ?? signingPubKey,
-          clist: request.caps == null || request.caps!.isEmpty
-              ? null
-              : request.caps?.map((e) => e.cap).toList(),
+          clist: request.caps == null || request.caps!.isEmpty ? null : request.caps?.map((e) => e.cap).toList(),
         ),
       ],
       meta: CommandMetadata(
