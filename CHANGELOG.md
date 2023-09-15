@@ -1,3 +1,8 @@
+## 2.3.2
+
+- removed dependency on Flutter sdk from main code
+- added deep equality utils to compare models
+
 ## 2.3.1
 
 - updated dependencies
