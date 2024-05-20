@@ -7,23 +7,23 @@ part of 'pact_models.dart';
 // **************************************************************************
 
 ExecMessage _$ExecMessageFromJson(Map<String, dynamic> json) => ExecMessage(
-      data: json['data'] as Map<String, dynamic>,
       code: json['code'] as String,
+      data: json['data'] as Map<String, dynamic>? ?? const {},
     );
 
 Map<String, dynamic> _$ExecMessageToJson(ExecMessage instance) =>
     <String, dynamic>{
-      'data': instance.data,
       'code': instance.code,
+      'data': instance.data,
     };
 
 ContinuationMessage _$ContinuationMessageFromJson(Map<String, dynamic> json) =>
     ContinuationMessage(
       pactId: json['pactId'] as String,
-      step: json['step'] as int,
+      step: (json['step'] as num).toInt(),
       rollback: json['rollback'] as bool,
       data: json['data'] as Map<String, dynamic>,
-      proof: json['proof'] as String,
+      proof: json['proof'] as String?,
     );
 
 Map<String, dynamic> _$ContinuationMessageToJson(
@@ -98,10 +98,10 @@ CommandMetadata _$CommandMetadataFromJson(Map<String, dynamic> json) =>
     CommandMetadata(
       chainId: json['chainId'] as String,
       sender: json['sender'] as String,
-      gasLimit: json['gasLimit'] as int?,
+      gasLimit: (json['gasLimit'] as num?)?.toInt(),
       gasPrice: (json['gasPrice'] as num?)?.toDouble(),
-      ttl: json['ttl'] as int?,
-      creationTime: json['creationTime'] as int?,
+      ttl: (json['ttl'] as num?)?.toInt(),
+      creationTime: (json['creationTime'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CommandMetadataToJson(CommandMetadata instance) =>
@@ -172,9 +172,9 @@ PactResultMetadata _$PactResultMetadataFromJson(Map<String, dynamic> json) =>
     PactResultMetadata(
       publicMeta:
           CommandMetadata.fromJson(json['publicMeta'] as Map<String, dynamic>),
-      blockTime: json['blockTime'] as int,
+      blockTime: (json['blockTime'] as num).toInt(),
       prevBlockHash: json['prevBlockHash'] as String,
-      blockHeight: json['blockHeight'] as int,
+      blockHeight: (json['blockHeight'] as num).toInt(),
     );
 
 Map<String, dynamic> _$PactResultMetadataToJson(PactResultMetadata instance) =>
@@ -186,7 +186,7 @@ Map<String, dynamic> _$PactResultMetadataToJson(PactResultMetadata instance) =>
     };
 
 PactResponse _$PactResponseFromJson(Map<String, dynamic> json) => PactResponse(
-      gas: json['gas'] as int,
+      gas: (json['gas'] as num).toInt(),
       result:
           PactResult<dynamic>.fromJson(json['result'] as Map<String, dynamic>),
       reqKey: json['reqKey'] as String,

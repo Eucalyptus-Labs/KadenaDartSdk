@@ -54,7 +54,7 @@ class ContinuationMessage {
   int step;
   bool rollback;
   Map<String, dynamic> data;
-  String proof;
+  String? proof;
 
   ContinuationMessage({
     required this.pactId,

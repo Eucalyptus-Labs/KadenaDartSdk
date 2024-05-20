@@ -24,10 +24,10 @@ SignRequest _$SignRequestFromJson(Map<String, dynamic> json) => SignRequest(
       sender: json['sender'] as String,
       networkId: json['networkId'] as String,
       chainId: json['chainId'] as String,
-      gasLimit: json['gasLimit'] as int?,
+      gasLimit: (json['gasLimit'] as num?)?.toInt(),
       gasPrice: (json['gasPrice'] as num?)?.toDouble(),
       signingPubKey: json['signingPubKey'] as String?,
-      ttl: json['ttl'] as int?,
+      ttl: (json['ttl'] as num?)?.toInt(),
       caps: (json['caps'] as List<dynamic>?)
           ?.map((e) => DappCapp.fromJson(e as Map<String, dynamic>))
           .toList(),
