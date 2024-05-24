@@ -11,7 +11,7 @@
 
 - updated dependencies
 - updated dart sdk to 3.0.5
--
+
 ## 2.3.0
 
 - updated dependencies
