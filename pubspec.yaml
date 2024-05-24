@@ -1,6 +1,6 @@
 name: kadena_dart_sdk
 description: A dart package for interacting with the Kadena blockchain.
-version: 2.3.2
+version: 2.3.3
 repository: https://github.com/Eucalyptus-Labs/KadenaDartSdk
 
 environment:
