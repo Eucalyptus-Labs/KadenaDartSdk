@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kadena_dart_sdk/utils/constants.dart';
-
 import 'package:kadena_dart_sdk/kadena_dart_sdk.dart';
+import 'package:kadena_dart_sdk/utils/constants.dart';
 
 import 'test_data/test_data.dart';
 
@@ -27,7 +26,6 @@ void main() {
           keyPair: kp1,
         );
         expect(result.error == null, true);
-        print('Signed TX: $result');
 
         PactCommandPayload pactCommand = PactCommandPayload.fromJson(
           jsonDecode(
@@ -69,10 +67,7 @@ void main() {
         ),
         throwsA(
           predicate(
-            (e) =>
-                e is SignResult &&
-                e.error != null &&
-                e.error!.msg.contains('{pactCode: "Hello"}'),
+            (e) => e is SignResult && e.error != null && e.error!.msg.contains('{pactCode: "Hello"}'),
           ),
         ),
       );
@@ -294,9 +289,7 @@ void main() {
         throwsA(
           predicate((e) {
             // print((e as QuicksignResult).error!.type);
-            return e is QuicksignResult &&
-                e.error != null &&
-                e.error!.type == QuicksignError.emptyList;
+            return e is QuicksignResult && e.error != null && e.error!.type == QuicksignError.emptyList;
           }),
         ),
       );
