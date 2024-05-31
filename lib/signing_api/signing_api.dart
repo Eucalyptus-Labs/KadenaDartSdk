@@ -55,7 +55,9 @@ ${request.toString()}''',
       signers: [
         SignerCapabilities(
           pubKey: request.signingPubKey ?? signingPubKey,
-          clist: request.caps == null || request.caps!.isEmpty ? null : request.caps?.map((e) => e.cap).toList(),
+          clist: request.caps == null || request.caps!.isEmpty
+              ? null
+              : request.caps?.map((e) => e.cap).toList(),
         ),
       ],
       meta: CommandMetadata(
