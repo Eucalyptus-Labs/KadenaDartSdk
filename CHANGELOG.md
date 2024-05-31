@@ -1,3 +1,7 @@
+## 2.3.3
+
+- added fix for kadena cont transaction
+
 ## 2.3.2
 
 - removed dependency on Flutter sdk from main code
@@ -7,7 +11,7 @@
 
 - updated dependencies
 - updated dart sdk to 3.0.5
-- 
+
 ## 2.3.0
 
 - updated dependencies
