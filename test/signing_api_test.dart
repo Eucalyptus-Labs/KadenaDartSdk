@@ -26,7 +26,6 @@ void main() {
           keyPair: kp1,
         );
         expect(result.error == null, true);
-
         PactCommandPayload pactCommand = PactCommandPayload.fromJson(
           jsonDecode(
             result.body!.cmd,
