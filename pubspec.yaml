@@ -10,7 +10,7 @@ environment:
 dependencies:
   blake2b: ^0.2.2
   hex: ^0.2.0
-  pinenacl: ^0.5.1
+  pinenacl: ^0.6.0
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   http: ^1.1.0
